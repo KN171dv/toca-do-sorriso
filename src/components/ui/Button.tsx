@@ -12,7 +12,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const base =
-  'inline-flex items-center justify-center gap-2 rounded-full font-bold uppercase tracking-[0.08em] transition-[transform,background-color,box-shadow,border-color] duration-200 ease-out active:scale-[0.97] disabled:pointer-events-none disabled:opacity-45 select-none'
+  'inline-flex items-center justify-center gap-2 rounded-full font-bold uppercase tracking-[0.08em] transition-[translate,scale,background-color,box-shadow,border-color] duration-200 ease-out active:scale-[0.97] disabled:pointer-events-none disabled:opacity-45 select-none'
 const variants: Record<Variant, string> = {
   primary: 'bg-ember-500 text-coal-950 shadow-ember hover:bg-ember-400',
   outline: 'border border-cream-100/30 text-cream-50 hover:border-cream-100/70 hover:bg-cream-100/5',

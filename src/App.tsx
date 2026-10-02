@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useState } from 'react'
 import { Footer } from '@/components/layout/Footer'
 import { Header } from '@/components/layout/Header'
 import { MobileCartBar } from '@/components/layout/MobileCartBar'
+import { CartAnnouncer } from '@/components/ui/CartAnnouncer'
 import { BestSellers } from '@/components/sections/BestSellers'
 import { BurgerExploded } from '@/components/sections/BurgerExploded'
 import { Delivery } from '@/components/sections/Delivery'
@@ -52,6 +53,7 @@ export default function App() {
       </main>
       <Footer />
       <MobileCartBar />
+      <CartAnnouncer />
       {mounted && (
         <Suspense fallback={null}>
           <ProductModal />

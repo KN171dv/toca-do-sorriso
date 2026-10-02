@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { CartAddon } from '@/types'
 import { getAddonsFor, getProduct } from '@/lib/catalog'
+import { flyToCart } from '@/lib/flyToCart'
 import { formatMoney } from '@/lib/format'
 import { useCart } from '@/store/cart'
 import { useUi } from '@/store/ui'
@@ -34,8 +35,9 @@ export function ProductModal() {
   const addonsTotal = addons.reduce((sum, a) => sum + a.price * (picked[a.id] ?? 0), 0)
   const total = product ? (product.price + addonsTotal) * quantity : 0
 
-  const confirm = () => {
+  const confirm = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!product) return
+    flyToCart(e.currentTarget, product.image?.srcSmall ?? product.image?.src)
     const chosen: CartAddon[] = addons
       .filter((a) => (picked[a.id] ?? 0) > 0)
       .map((a) => ({ addonId: a.id, name: a.name, price: a.price, quantity: picked[a.id] }))

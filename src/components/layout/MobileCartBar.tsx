@@ -15,7 +15,7 @@ export function MobileCartBar() {
     <div
       aria-hidden={!visible}
       className={cx(
-        'transition-[transform,opacity,visibility] duration-400 ease-out-expo',
+        'transition-[translate,scale,opacity,visibility] duration-400 ease-out-expo',
         visible ? 'visible translate-y-0 opacity-100' : 'invisible translate-y-24 opacity-0',
         'fixed inset-x-0 bottom-0 z-30 px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:inset-x-auto md:right-6 md:w-[380px] md:px-0 md:pb-6',
       )}
