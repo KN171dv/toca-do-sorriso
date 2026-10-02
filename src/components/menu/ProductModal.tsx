@@ -78,7 +78,7 @@ export function ProductModal() {
                           {a.description && <span className="block text-sm text-cream-500">{a.description}</span>}
                           <span className="text-sm font-semibold tabular-nums text-ember-400">+ {formatMoney(a.price)}</span>
                         </span>
-                        <QuantityStepper size="sm" label={a.name} value={picked[a.id] ?? 0} max={a.max} onChange={(v) => setPicked((s) => ({ ...s, [a.id]: v }))} />
+                        <QuantityStepper label={a.name} value={picked[a.id] ?? 0} max={a.max} onChange={(v) => setPicked((s) => ({ ...s, [a.id]: v }))} />
                       </li>
                     ))}
                   </ul>
