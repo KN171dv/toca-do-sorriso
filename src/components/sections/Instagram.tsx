@@ -9,7 +9,7 @@ export function Instagram() {
   const strip = [...photos, ...photos] // duplicado para o loop contínuo
 
   return (
-    <section aria-labelledby="instagram-titulo" className="relative overflow-hidden bg-coal-900 py-20 lg:py-28">
+    <section id="instagram" aria-labelledby="instagram-titulo" className="relative overflow-hidden bg-coal-900 py-20 lg:py-28">
       <div className="container-x flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
         <div data-reveal>
           <p className="eyebrow mb-3">Instagram</p>

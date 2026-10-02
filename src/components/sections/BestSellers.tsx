@@ -12,7 +12,7 @@ export function BestSellers() {
   const items = featured.bestSellerIds.map((id) => getProduct(id)).filter((p): p is Product => !!p && p.active)
 
   return (
-    <section aria-labelledby="mais-pedidos-titulo" className="relative overflow-hidden bg-coal-900 py-20 lg:py-28">
+    <section id="mais-pedidos" aria-labelledby="mais-pedidos-titulo" className="relative overflow-hidden bg-coal-900 py-20 lg:py-28">
       <div className="container-x">
         <div data-reveal className="mb-8 lg:mb-12">
           <p className="eyebrow mb-3">Mais pedidos</p>

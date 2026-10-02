@@ -24,7 +24,7 @@ export function Experience() {
   }, [])
 
   return (
-    <section ref={root} aria-labelledby="experiencia-titulo" className="grain relative isolate overflow-hidden bg-coal-900 py-20 lg:py-32">
+    <section ref={root} id="sobre" aria-labelledby="experiencia-titulo" className="grain relative isolate overflow-hidden bg-coal-900 py-20 lg:py-32">
       <div className="container-x grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
         <div data-reveal data-exp-frame className="relative aspect-[4/3] overflow-hidden rounded-[2rem]">
           <img
