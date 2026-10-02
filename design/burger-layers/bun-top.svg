@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 380" width="800" height="380">
+  <defs>
+    <radialGradient id="g" cx="40%" cy="18%" r="92%">
+      <stop offset="0" stop-color="#F8CD82"/><stop offset=".22" stop-color="#EBA648"/>
+      <stop offset=".55" stop-color="#C87222"/><stop offset=".85" stop-color="#8A430E"/><stop offset="1" stop-color="#5A2606"/>
+    </radialGradient>
+    <linearGradient id="crumb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6E0B0"/><stop offset="1" stop-color="#C98F45"/></linearGradient>
+    <filter id="tex" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency=".012 .03" numOctaves="2" seed="8" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 .3  0 0 0 0 .12  0 0 0 0 0  0 0 0 .8 -.3"/>
+      <feComposite in2="SourceAlpha" operator="in"/>
+    </filter>
+    <filter id="soft"><feGaussianBlur stdDeviation="16"/></filter>
+    <filter id="soft2"><feGaussianBlur stdDeviation="5"/></filter>
+    <clipPath id="c"><path d="M96,286 C40,30 760,30 704,286 C640,340 160,340 96,286Z"/></clipPath>
+  </defs>
+  <path d="M96,286 C40,30 760,30 704,286 C640,340 160,340 96,286Z" fill="url(#g)"/>
+  <path d="M96,286 C40,30 760,30 704,286 C640,340 160,340 96,286Z" fill="#000" filter="url(#tex)" opacity=".35"/>
+  <g clip-path="url(#c)">
+    <path d="M80,282 C160,344 640,344 720,282 L720,380 L80,380Z" fill="url(#crumb)"/>
+    <path d="M80,304 C170,360 630,360 720,304 L720,380 L80,380Z" fill="#6E3409" opacity=".9"/>
+    <ellipse cx="290" cy="120" rx="170" ry="40" fill="#fff" opacity=".38" filter="url(#soft)" transform="rotate(-12 290 120)"/>
+    <ellipse cx="262" cy="104" rx="70" ry="11" fill="#fff" opacity=".62" filter="url(#soft2)" transform="rotate(-14 262 104)"/>
+    <ellipse cx="620" cy="250" rx="190" ry="80" fill="#2E1002" opacity=".5" filter="url(#soft)"/>
+    <ellipse cx="400" cy="300" rx="330" ry="22" fill="#3A1603" opacity=".35" filter="url(#soft)"/>
+  </g>
+</svg>
