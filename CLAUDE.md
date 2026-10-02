@@ -33,10 +33,10 @@ Quando usar cada plugin 📥:
 - **Security Guidance** — ao tocar no checkout, em dados de cliente ou ao criar backend/admin.
 
 Onde cada lib do projeto entra (já instaladas, exceto R3F):
-- **GSAP + ScrollTrigger** — tudo que é ligado ao scroll: exploded view (`BurgerExploded.tsx`), parallax do hero e da seção Experiência, reveals (`useReveal.ts`). Registrados em `src/lib/motion.ts`.
+- **GSAP + ScrollTrigger** — apresentação do hambúrguer (`BurgerExploded.tsx`: timeline por tempo, o scroll só dispara), parallax do hero e da seção Sobre, reveals (`useReveal.ts`), seção ativa do menu (`Header.tsx`). Registrados em `src/lib/motion.ts`.
 - **Motion** — entrada/saída de modal, carrinho e checkout (`components/ui/Sheet.tsx`). Fica em chunk assíncrono; não importar em componentes do primeiro render.
 - **Lenis** — scroll suave só em desktop (ponteiro fino), sincronizado com o ticker do GSAP (`hooks/useLenis.ts`).
-- **React Three Fiber** — NÃO instalado. O exploded view usa camadas 2D com transform. Só adicionar se houver um modelo 3D real do hambúrguer, e confirmar com o usuário antes.
+- **React Three Fiber** — NÃO instalado. O destaque usa 6 recortes 2D da foto "hambúrguer 3D" com transform. Só adicionar se houver um modelo 3D real, e confirmar com o usuário antes.
 
 ## Comandos
 
@@ -45,7 +45,7 @@ Onde cada lib do projeto entra (já instaladas, exceto R3F):
 - `npm run preview` — serve o build
 - `npm run typecheck` · `npm run lint`
 - `npm run images:fetch` — baixa as fotos originais do InstaDelivery e regera os WebP
-- `npm run layers:render` — rasteriza `design/burger-layers/*.svg` → `public/images/burger-layers`
+- `npm run burger:build` — refaz as camadas do hambúrguer em destaque a partir de `public/images/burger/hamburguer-3d.png` (ver `docs/ARCHITECTURE.md`)
 
 ## Regras do projeto
 
@@ -60,9 +60,9 @@ Onde cada lib do projeto entra (já instaladas, exceto R3F):
 
 ## Mapa rápido
 
-- `src/data/` — business, hours, delivery, payments, categories, addons, products, featured
-- `src/lib/` — catalog, pricing, hours, validation, whatsapp, orderService, motion, format
-- `src/store/` — `cart.ts` (carrinho persistido), `ui.ts` (painéis + dados do checkout)
+- `src/data/` — business, hours, delivery, payments, categories, addons, products, featured (+ `burgerLabels`), burger3d (gerado)
+- `src/lib/` — catalog, pricing, hours, validation, whatsapp, orderService, motion, format, flyToCart
+- `src/store/` — `cart.ts` (carrinho persistido + `lastAdded` para feedback), `ui.ts` (painéis + dados do checkout)
 - `src/components/sections/` — Hero, BurgerExploded, BestSellers, Menu, Experience, Delivery, Instagram, FinalCta
 - `src/components/{menu,cart,checkout,layout,ui}/`
 - `docs/ARCHITECTURE.md` — arquitetura, pendências e caminho para o admin/backend

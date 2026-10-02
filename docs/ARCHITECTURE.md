@@ -21,11 +21,33 @@ A UI nunca importa `products` diretamente: usa `src/lib/catalog.ts`. Trocar a or
 - **Foto é protagonista**: fundo escuro, sem cards brancos; calor vem de gradientes radiais e fagulhas em CSS.
 - **Animação**: hero em CSS puro (roda no primeiro paint); scroll com GSAP/ScrollTrigger; overlays com Motion.
 
-## Exploded view (`BurgerExploded.tsx`)
-- Seção alta com conteúdo `sticky`; um ScrollTrigger com `scrub` conduz a timeline. Só `transform`/`opacity`.
-- Desktop (≥1024px): rótulos ao lado de cada camada. Mobile: uma camada em foco + legenda única.
-- `prefers-reduced-motion`: hambúrguer montado e lista de ingredientes, sem pin.
-- **As camadas são ilustrações** (`design/burger-layers/*.svg` → `npm run layers:render`). Não existem fotos recortadas dos ingredientes. Para trocar por fotos reais: salvar PNG/WebP com fundo transparente em `public/images/burger-layers/` com os mesmos nomes e ajustar `ratio`/`y` em `src/data/featured.ts`.
+## Hambúrguer em destaque (`BurgerExploded.tsx`)
+
+### Asset
+- Original: `public/images/burger/hamburguer-3d.png` (1254², vista explodida do **Duplo Bacon** com rótulos desenhados). WebP da imagem inteira ao lado (`hamburguer-3d.webp`, `-640.webp`). É uma imagem ilustrativa — a seção diz isso.
+- `npm run burger:build` (`scripts/burger-3d.mjs`):
+  1. move a imagem enviada (`upload/`, raiz, `public/` ou `src/`) para `public/images/burger/`;
+  2. **remove o fundo** com `@imgly/background-removal-node` — só desenvolvimento, nunca dependência do site. Instalar sob demanda (`npm i --no-save @imgly/background-removal-node`) e rodar com `-- --fresh`. O recorte fica em cache em `design/burger-3d/cutout.png`, então o comando normal não precisa do modelo;
+  3. apaga os pontos/linhas dos rótulos que tocavam a comida (caixas fixas medidas nesta imagem) e a sombra escura das frestas;
+  4. separa **6 peças** por cor + faixa vertical: pão de cima, maionese, bacon, cheddar+carne, cheddar+carne, pão de baixo. Cada peça leva um anel de 3 px (alfa decrescente) por baixo da peça da frente, para não abrir frestas;
+  5. exporta `public/images/burger-layers/3d-*.webp` (inteira e `-sm`) e a geometria em `src/data/burger3d.ts` (gerado — não editar).
+- **Montado** = peças aproximadas (`ASSEMBLE_DY` no script, ajustado no olho). **Aberto** = posição da foto original. A animação nunca abre além da foto, então nenhuma parte escondida aparece.
+- Rótulos: `burgerLabels` em `src/data/featured.ts` (texto da descrição do produto + peça + altura do conector). Trocar o produto em destaque exige outra imagem.
+
+### Animação
+- Seção de uma tela (sem `sticky`/scrub). O palco reserva a altura do hambúrguer montado + o espaço para abrir (`--open`: 0,75 no mobile, 1 no desktop); a abertura é calculada desse espaço real.
+- Entrada: o hambúrguer desce e assenta (`expo.out`), com brilho; flutuação leve só enquanto a seção está na tela.
+- Quando o hambúrguer passa de 62% da altura da tela, a timeline toca **por tempo** (~2,5 s até o fim dos rótulos): peças se afastam com rotação pequena → rótulos com conector em sequência (desktop) ou legenda de ingredientes (mobile/tablet) → recompõe → anel no "Adicionar" e botão "Ver de novo".
+- Toca uma vez por carregamento. Se a seção sai da tela no meio, `progress(1)` leva ao estado final. Preço e "Adicionar" ficam sempre visíveis.
+- `prefers-reduced-motion`: sem timeline; hambúrguer montado + legenda de ingredientes + CTA. A lista `sr-only` de ingredientes existe em todos os modos.
+
+## Navegação
+- Cabeçalho: Início · Destaque · Cardápio · Sobre · Delivery · Contato (ordem da página). O item ativo vem das posições das seções, lidas só no `refresh` do ScrollTrigger.
+- < 1024px: menu em tela cheia (`useOverlay`: foco preso, Esc, devolve o foco). Status compacto a partir de 375px, completo a partir de 480px; abaixo disso, o status aparece dentro do menu.
+
+## Microinterações
+- Adicionar ao carrinho: `flyToCart` (miniatura até o carrinho, 550 ms, WAAPI), check no botão "+", pulso no ícone do carrinho (`useCartFeedback`) e aviso `aria-live` (`CartAnnouncer`). Tudo desligado/instantâneo com movimento reduzido.
+- Tailwind 4: `scale-*`/`translate-*` usam as propriedades CSS `scale`/`translate`, então transições devem listar `translate,scale` (não `transform`).
 
 ## Performance
 - HTML pré-renderizado no build (`scripts/prerender.mjs`) e hidratado no cliente.

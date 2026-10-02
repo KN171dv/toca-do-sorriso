@@ -149,13 +149,13 @@ export function BurgerExploded() {
 
       <div
         className={cx(
-          'container-x grid min-h-[100svh] content-center gap-y-4 pb-8 pt-[84px] lg:min-h-[max(100svh,720px)] lg:gap-x-10 lg:gap-y-7 lg:py-20',
+          'container-x grid min-h-[100svh] max-lg:max-w-[560px] content-center gap-y-4 pb-8 pt-[84px] lg:min-h-[max(100svh,720px)] lg:gap-x-10 lg:gap-y-7 lg:py-20',
           '[grid-template-areas:"text""stage""chips""cta"] lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)] lg:grid-rows-[1fr_auto_auto_auto_1fr] lg:[grid-template-areas:".stage""text_stage""cta_stage""chips_stage"".stage"]',
         )}
       >
         <div className="[grid-area:text]">
           <p className="eyebrow mb-2 lg:mb-4">Destaque da casa</p>
-          <h2 id="destaque-titulo" className="display text-[clamp(2.1rem,9.5vw,3.2rem)] text-cream-50 lg:text-[clamp(3rem,5vw,5.2rem)]">
+          <h2 id="destaque-titulo" className="display text-[clamp(2.1rem,9.5vw,3.2rem)] text-cream-50 lg:text-[clamp(3rem,4.6vw,4.5rem)]">
             {product.name},<br className="hidden lg:block" /> <span className="text-ember-500">camada por camada.</span>
           </h2>
           <p className="mt-4 hidden max-w-md text-lg leading-relaxed text-cream-300 lg:block">{product.description}</p>
