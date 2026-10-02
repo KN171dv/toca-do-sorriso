@@ -187,8 +187,8 @@ export function BurgerExploded() {
                     <img
                       data-art
                       src={p.src}
-                      srcSet={`${p.srcSmall} ${Math.round(p.width / 2)}w, ${p.src} ${p.width}w`}
-                      sizes={`(min-width: 1024px) ${Math.round(p.w * 4.2)}px, ${Math.round(p.w * 3.3)}px`}
+                      srcSet={`${p.srcSmall} ${p.widthSmall}w, ${p.src} ${p.width}w`}
+                      sizes={`(min-width: 1024px) ${Math.round(p.w * 4.2)}px, min(${Math.round(p.w * 0.6)}vw, ${Math.round(p.w * 3.3)}px)`}
                       width={p.width} height={p.height}
                       alt="" aria-hidden="true" draggable={false}
                       loading="lazy" decoding="async"

@@ -126,6 +126,7 @@ for (const [x0, y0, x1, y1] of LABEL_MARKS) {
 // (px da imagem original) para formar o hambúrguer montado — ajustado no olho.
 const PIECES = ['pao-topo', 'maionese', 'bacon', 'carne-1', 'carne-2', 'pao-base']
 const ASSEMBLE_DY = [272, 205, 160, 105, 40, 0]
+const SMALL = 0.62
 
 const px = (i) => [data[i * 4], data[i * 4 + 1], data[i * 4 + 2], data[i * 4 + 3]]
 const isMayo = (i) => { const [r, g, b, a] = px(i); return a > 120 && (r + g + b) / 3 > 110 && g > 0.8 * r && b > 0.5 * r }
@@ -204,7 +205,8 @@ for (let p = 0; p < PIECES.length; p++) {
   const box = { x: x0, y: y0, w: x1 - x0 + 1, h: y1 - y0 + 1 }
   const piece = sharp(buf, { raw: { width: W, height: H, channels: 4 } }).extract({ left: box.x, top: box.y, width: box.w, height: box.h })
   const png = await piece.png().toBuffer()
-  for (const [suffix, scale] of [['', 1], ['-sm', 0.5]]) {
+  // -sm ≈ 62%: cobre o palco do celular (≈250px CSS × DPR 1,75); telas densas/desktop usam a inteira
+  for (const [suffix, scale] of [['', 1], ['-sm', SMALL]]) {
     const out = `${LAYERS_DIR}/3d-${PIECES[p]}${suffix}.webp`
     await sharp(png).resize({ width: Math.round(box.w * scale) }).webp({ quality: 82, alphaQuality: 90, effort: 6 }).toFile(out)
   }
@@ -224,7 +226,7 @@ const shift = (ay0 + ay1) / 2 - (ey0 + ey1) / 2
 const r = (n) => Math.round(n * 100) / 100
 const rows = boxes.map((b) => {
   const pct = { x: r(((b.x - fx0) / FW) * 100), y: r(((b.y + b.dy - ay0) / FH) * 100), w: r((b.w / FW) * 100), h: r((b.h / FH) * 100), spread: r(((shift - b.dy) / FH) * 100) }
-  return `  { id: '${b.id}', src: '/images/burger-layers/3d-${b.id}.webp', srcSmall: '/images/burger-layers/3d-${b.id}-sm.webp', width: ${b.w}, height: ${b.h}, x: ${pct.x}, y: ${pct.y}, w: ${pct.w}, h: ${pct.h}, spread: ${pct.spread} },`
+  return `  { id: '${b.id}', src: '/images/burger-layers/3d-${b.id}.webp', srcSmall: '/images/burger-layers/3d-${b.id}-sm.webp', width: ${b.w}, height: ${b.h}, widthSmall: ${Math.round(b.w * SMALL)}, x: ${pct.x}, y: ${pct.y}, w: ${pct.w}, h: ${pct.h}, spread: ${pct.spread} },`
 })
 writeFileSync(join(ROOT, 'src/data/burger3d.ts'), `// Gerado por scripts/burger-3d.mjs — não editar à mão.
 // Camadas recortadas de public/images/burger/hamburguer-3d.png (vista explodida do Duplo Bacon).
@@ -233,9 +235,10 @@ export interface BurgerPiece {
   id: string
   src: string
   srcSmall: string
-  /** Tamanho do arquivo em px. */
+  /** Tamanho do arquivo em px (e largura da versão -sm). */
   width: number
   height: number
+  widthSmall: number
   /** Caixa da peça no hambúrguer montado, em % do quadro (x/w da largura, y/h da altura). */
   x: number
   y: number
