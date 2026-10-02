@@ -1,0 +1,159 @@
+@import 'tailwindcss';
+
+/* Fontes self-hosted (public/fonts) — Anton e Barlow 400 são pré-carregadas no index.html */
+@font-face { font-family: 'Anton'; src: url('/fonts/anton.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url('/fonts/barlow-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url('/fonts/barlow-500.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url('/fonts/barlow-600.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url('/fonts/barlow-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
+/* ── Tokens da marca (derivados do logo: carvão, laranja-brasa, creme) ── */
+@theme {
+  --color-coal-950: #0d0907;
+  --color-coal-900: #15100c;
+  --color-coal-800: #1e1711;
+  --color-coal-700: #2a2018;
+  --color-coal-600: #3a2d22;
+  --color-ember-300: #ffb869;
+  --color-ember-400: #f9a03f;
+  --color-ember-500: #f58a2a;
+  --color-ember-600: #e0661a;
+  --color-ember-700: #b8480f;
+  --color-cream-50: #fbf3e4;
+  --color-cream-100: #f6e7ce;
+  --color-cream-300: #cfbfa3;
+  --color-cream-500: #a39379;
+  --color-ok: #5fd08a;
+  --color-danger: #ff7a6b;
+
+  --font-display: 'Anton', 'Impact', 'Arial Narrow Bold', sans-serif;
+  --font-sans: 'Barlow', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+  --shadow-ember: 0 10px 40px -10px rgb(245 138 42 / 0.55);
+
+  --animate-rise: rise 9s linear infinite;
+  --animate-smoke: smoke 14s ease-in-out infinite;
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-pulse-dot: pulse-dot 2s ease-in-out infinite;
+
+  @keyframes rise {
+    0% { transform: translate3d(0, 0, 0) scale(1); opacity: 0; }
+    10% { opacity: 1; }
+    100% { transform: translate3d(var(--drift, 20px), -110vh, 0) scale(0.3); opacity: 0; }
+  }
+  @keyframes smoke {
+    0%, 100% { transform: translate3d(-3%, 2%, 0) scale(1); opacity: 0.5; }
+    50% { transform: translate3d(3%, -3%, 0) scale(1.12); opacity: 0.8; }
+  }
+  @keyframes marquee {
+    to { transform: translate3d(-50%, 0, 0); }
+  }
+  @keyframes pulse-dot {
+    0%, 100% { box-shadow: 0 0 0 0 rgb(95 208 138 / 0.5); }
+    50% { box-shadow: 0 0 0 6px rgb(95 208 138 / 0); }
+  }
+}
+
+@layer base {
+  html {
+    background: var(--color-coal-950);
+    color: var(--color-cream-100);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    scroll-padding-top: 72px;
+    text-size-adjust: 100%;
+  }
+  html.overlay-open { overflow: hidden; }
+  body {
+    min-height: 100dvh;
+    overflow-x: clip;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  ::selection { background: var(--color-ember-500); color: var(--color-coal-950); }
+  :focus-visible {
+    outline: 2px solid var(--color-ember-400);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  button, a, select, input, textarea { touch-action: manipulation; }
+  button { cursor: pointer; }
+  img { -webkit-user-drag: none; }
+  h1, h2, h3 { text-wrap: balance; }
+  p { text-wrap: pretty; }
+}
+
+@layer components {
+  .display {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 0.95;
+    font-weight: 400;
+  }
+  .eyebrow {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-ember-400);
+  }
+  .container-x {
+    width: 100%;
+    max-width: 1240px;
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 4vw, 2.5rem);
+  }
+  .field {
+    width: 100%;
+    min-height: 52px;
+    border-radius: 14px;
+    border: 1px solid var(--color-coal-600);
+    background: var(--color-coal-900);
+    padding: 0.85rem 1rem;
+    font-size: 1rem; /* evita zoom no iOS */
+    color: var(--color-cream-50);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .field::placeholder { color: var(--color-cream-500); }
+  .field:focus { outline: none; border-color: var(--color-ember-500); box-shadow: 0 0 0 3px rgb(245 138 42 / 0.25); }
+  .field[aria-invalid='true'] { border-color: var(--color-danger); }
+  .no-scrollbar { scrollbar-width: none; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  /* Granulado sutil sobre fundos escuros (dá corpo, evita "flat") */
+  .grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.07;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+/* Redução de movimento: mantém tudo funcional, sem coreografia. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes pop {
+  0% { transform: scale(0.4); }
+  60% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* Entrada do hero em CSS puro: começa no primeiro paint, sem depender de JS. */
+@keyframes line-up { from { transform: translate3d(0, 110%, 0); } to { transform: none; } }
+@keyframes fade-up { from { opacity: 0; transform: translate3d(0, 18px, 0); } to { opacity: 1; transform: none; } }
+@keyframes photo-in { from { transform: scale(1.14); } to { transform: none; } }
+.hero-line { animation: line-up 0.9s var(--ease-out-expo) both; animation-delay: calc(0.12s + var(--i, 0) * 0.09s); }
+.hero-fade { animation: fade-up 0.7s var(--ease-out-expo) both; animation-delay: calc(0.45s + var(--i, 0) * 0.08s); }
+.hero-photo { animation: photo-in 1.4s var(--ease-out-expo) both; }
