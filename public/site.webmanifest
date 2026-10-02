@@ -1,0 +1,13 @@
+{
+  "name": "Toca do Sorriso na Brasa",
+  "short_name": "Toca do Sorriso",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0D0907",
+  "theme_color": "#0D0907",
+  "lang": "pt-BR",
+  "icons": [
+    { "src": "/images/brand/logo-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/images/brand/logo-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
