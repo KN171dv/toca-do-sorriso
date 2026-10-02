@@ -24,7 +24,7 @@ export function BestSellers() {
       <ul className="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto px-[clamp(1rem,4vw,2.5rem)] pb-2 lg:mx-auto lg:grid lg:max-w-[1240px] lg:grid-cols-3 lg:gap-6 lg:overflow-visible">
         {items.map((p, i) => (
           <li key={p.id} data-reveal className="w-[82vw] max-w-[380px] shrink-0 snap-center lg:w-auto lg:max-w-none">
-            <article className="group relative isolate flex aspect-[4/5] flex-col lg:aspect-[5/6] justify-end overflow-hidden rounded-[2rem] border border-cream-100/10">
+            <article className="group relative isolate flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-[2rem] border border-cream-100/10 transition-[border-color,translate] duration-300 ease-out hover:-translate-y-1 hover:border-ember-500/40 lg:aspect-[5/6]">
               <ProductPhoto image={p.image} name={p.name} size="lg" sizes="(min-width:1024px) 390px, 82vw" className="absolute inset-0 -z-10 [&_img]:transition-transform [&_img]:duration-[900ms] [&_img]:ease-out group-hover:[&_img]:scale-[1.07]" />
               <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-t from-coal-950 via-coal-950/55 to-transparent" />
               <span aria-hidden="true" className="display absolute right-5 top-4 text-6xl text-cream-50/25">0{i + 1}</span>
@@ -39,7 +39,7 @@ export function BestSellers() {
                 <div className="mt-4 flex items-center justify-between">
                   <Price product={p} className="text-2xl" />
                   <span aria-hidden="true" className="inline-flex min-h-11 items-center gap-2 rounded-full bg-ember-500 px-5 text-sm font-bold uppercase tracking-[0.08em] text-coal-950 transition-colors group-hover:bg-ember-400">
-                    Pedir <ArrowIcon width={16} height={16} />
+                    Pedir <ArrowIcon width={16} height={16} className="transition-transform duration-300 ease-out group-hover:translate-x-0.5" />
                   </span>
                 </div>
               </div>

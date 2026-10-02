@@ -36,7 +36,7 @@ function AddButton({ product }: { product: Product }) {
 export function ProductCard({ product }: { product: Product }) {
   const openProduct = useUi((s) => s.openProduct)
   return (
-    <article data-reveal className="group relative flex flex-col overflow-hidden rounded-3xl border border-cream-100/8 bg-coal-900 transition-colors duration-300 hover:border-ember-500/50">
+    <article data-reveal className="group relative flex flex-col overflow-hidden rounded-3xl border border-cream-100/8 bg-coal-900 transition-[border-color,translate] duration-300 ease-out hover:-translate-y-1 hover:border-ember-500/50">
       <div className="relative">
         <ProductPhoto image={product.image} name={product.name} sizes="(min-width:1024px) 290px, (min-width:640px) 33vw, 50vw" className="aspect-square w-full [&_img]:transition-transform [&_img]:duration-700 [&_img]:ease-out group-hover:[&_img]:scale-[1.06]" />
         <Badges badges={product.badges} className="absolute left-2.5 top-2.5" />
