@@ -18,8 +18,16 @@ A UI nunca importa `products` diretamente: usa `src/lib/catalog.ts`. Trocar a or
 ## Decisões de design
 - **Paleta**: carvão `#0D0907`, laranja-brasa `#F58A2A`, creme `#F6E7CE` — tirada do logo.
 - **Tipografia**: Anton (títulos, ecoa o condensado do logo) + Barlow (texto). Self-hosted em `public/fonts`.
-- **Foto é protagonista**: fundo escuro, sem cards brancos; calor vem de gradientes radiais e fagulhas em CSS.
+- **Foto é protagonista**: fundo escuro, sem cards brancos.
 - **Animação**: hero em CSS puro (roda no primeiro paint); scroll com GSAP/ScrollTrigger; overlays com Motion.
+
+### Direção de arte (etapa 4: menos fórmula)
+- A receita completa (etiqueta laranja + título gigante em Anton com final laranja) fica **só no hero e no destaque**. As demais seções têm títulos diretos ("Os mais pedidos", "Cardápio", "Sobre a Toca", "Entrega e retirada"), sem etiqueta, em tamanhos diferentes (o do cardápio é pequeno e funcional). O CTA final mantém "Seu próximo hambúrguer começa aqui."
+- **Brilho/calor** (gradientes radiais) só no hero e no destaque; as outras seções têm fundo liso, com junções suaves entre coal-900 e coal-950. Sem fagulhas, sem sombra laranja nos botões, sem numeração decorativa, sem pílula de status fora do cabeçalho.
+- **Ritmo**: Mais pedidos e Cardápio ficam colados; Sobre e Delivery têm mais ar (mudam de assunto).
+- **Escala de cantos**: pequeno (8–12px) em campos e itens de lista; médio (16px) em cards de produto; grande só em peças de destaque (cards de Mais pedidos 28px, modal). Sem borda onde o fundo já separa.
+- **Texto**: sem travessão em texto corrido; não inventar fatos (Sobre não tem história, fundador, data nem depoimento).
+- **Formatos**: Delivery é uma faixa de informação + tabela de bairros (nome à esquerda, taxa à direita), não cards; Sobre é uma lista de bilhete; Instagram é um bloco simples (@ + convite + botão), sem fotos que imitem feed.
 
 ## Hambúrguer em destaque (`BurgerExploded.tsx`)
 
@@ -43,7 +51,7 @@ A UI nunca importa `products` diretamente: usa `src/lib/catalog.ts`. Trocar a or
 - `prefers-reduced-motion`: aberto desde o início, desenhado em CSS (`transform` inline + classes `motion-reduce:`), sem timeline. A lista `sr-only` de ingredientes existe em todos os modos.
 
 ## Hero
-- Foto do Big Sorriso (arquivo de 500px) exibida no máximo com 500px, sem máscara (o hambúrguer vai até a borda da foto): moldura arredondada + brilho ambiente atrás. Continua sendo o LCP (`preload`, `fetchpriority=high`, `width`/`height`).
+- Foto do Big Sorriso (arquivo de 500px) exibida no máximo com 500px, **fundida ao fundo** por degradê nas quatro bordas (16% em cima, 10% nas laterais, 8% embaixo — estreito onde o bacon e o pão chegam perto da borda), sem moldura nem cantos. "Na foto" é uma legenda discreta abaixo da imagem. Continua sendo o LCP (`preload`, `fetchpriority=high`, `width`/`height`).
 - Entrada em CSS puro, só com deslocamento. Saída (scrub) só com deslocamento e opacidade.
 - Título limitado pela largura **e** pela altura da tela; em telas baixas (< 700px de altura, mobile) o parágrafo sai e, abaixo de 620px, a foto encolhe e a etiqueta "Na foto" sai — "Pedir agora" e "Ver por dentro" aparecem sem rolar em qualquer largura.
 
@@ -63,7 +71,7 @@ A UI nunca importa `products` diretamente: usa `src/lib/catalog.ts`. Trocar a or
 - Seções `coal-900` têm junções em gradiente com as vizinhas `coal-950`.
 
 ## Logo
-- O arquivo `public/images/brand/logo.webp` (e `logo-192/512.png`) diz **"TOCA DD SORRISO"**. Enquanto não houver logo corrigido, o cabeçalho usa o selo (`logo-80.webp`, decorativo, `alt=""`) com o nome correto em texto ao lado. Rodapé mantém o selo. Quando chegar um logo novo, gerar as versões com sharp e atualizar favicon/manifest.
+- O arquivo `public/images/brand/logo.webp` (e `logo-192/512.png`) diz **"TOCA DD SORRISO"** e em ~32px fica ilegível. Enquanto não houver logo corrigido, o cabeçalho e o menu mobile mostram só o nome em texto; o selo aparece apenas no rodapé. Quando chegar um logo novo (`public/images/brand/logo.*`), gerar as versões com sharp, colocar no cabeçalho em tamanho legível e atualizar favicon/manifest.
 
 ## Recarregar (F5)
 - Script mínimo no `<head>` (`index.html`): `history.scrollRestoration = 'manual'` e, só em recarregamento, remove a âncora da URL e vai ao topo antes do conteúdo. O `App` reforça o topo no Lenis e chama `ScrollTrigger.refresh()`. Link direto com âncora continua funcionando.
@@ -88,6 +96,9 @@ A UI nunca importa `products` diretamente: usa `src/lib/catalog.ts`. Trocar a or
 - [ ] Confirmar tabela de taxa de entrega (bairro × km) e o tempo estimado.
 - [ ] Fotos: Brasileirinho Burguer e os dois pratos feitos.
 - [ ] Logo corrigido ("DO").
+- [ ] Fotos reais da loja, da chapa e da equipe (entram na seção Sobre; ver comentário em `Experience.tsx`).
+- [ ] Foto do hero em resolução maior (hoje 500px).
+- [ ] Posts reais do Instagram (o bloco do Instagram pode ganhar 2–3 fotos paradas).
 - [ ] CEP e coordenadas em `src/data/business.ts` (SEO local).
 - [ ] Rodar `npm run images:fetch` para regerar as fotos a partir dos originais.
 - [ ] Analytics/Pixel, se desejado.
