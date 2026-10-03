@@ -13,7 +13,7 @@ export function FinalCta() {
       <Embers count={18} />
       <div className="container-x relative flex flex-col items-center">
         <StatusPill status={status} />
-        <h2 data-reveal id="cta-titulo" className="display mt-6 max-w-4xl text-[clamp(2.9rem,12.5vw,7.5rem)] text-cream-50">
+        <h2 data-reveal="title" id="cta-titulo" className="display mt-6 w-full max-w-4xl text-[clamp(2.9rem,12.5vw,7.5rem)] text-cream-50">
           Seu próximo hambúrguer <span className="text-ember-500">começa aqui.</span>
         </h2>
         <Button data-reveal size="lg" className="mt-9 !min-h-16 !px-10 !text-base" onClick={() => scrollToTarget('#cardapio')}>

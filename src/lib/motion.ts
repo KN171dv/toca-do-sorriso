@@ -1,10 +1,11 @@
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { SplitText } from 'gsap/SplitText'
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger, SplitText)
 gsap.config({ nullTargetWarn: false })
 
-export { gsap, ScrollTrigger }
+export { gsap, ScrollTrigger, SplitText }
 
 export const EASE = { out: 'power3.out', inOut: 'power2.inOut' } as const
 /** Curva padrão para transições de UI (Motion). */

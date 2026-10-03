@@ -174,3 +174,14 @@
 [role='dialog'] ::-webkit-scrollbar-track { background: transparent; }
 [role='dialog'] ::-webkit-scrollbar-thumb { background: var(--color-coal-600); border-radius: 9999px; border: 2px solid var(--color-coal-900); }
 [role='dialog'] ::-webkit-scrollbar-thumb:hover { background: var(--color-cream-500); }
+
+/* Máscara por linha dos títulos (SplitText, overflow: clip): alarga só a área de
+   recorte para acentos e descendentes não serem cortados — sem mudar o layout. */
+[data-reveal='title'] > div {
+  overflow-clip-margin: 0.2em;
+}
+/* O SplitText grava text-align: start nas linhas; títulos centralizados (CTA) precisam herdar. */
+[data-reveal='title'] > div,
+[data-reveal='title'] > div > div {
+  text-align: inherit !important;
+}

@@ -126,7 +126,8 @@ export function Header() {
                 aria-hidden="true"
                 className={cx(
                   'absolute inset-x-0 bottom-1.5 h-0.5 origin-left rounded-full bg-ember-500 transition-transform duration-500 ease-out-expo',
-                  active === n.id ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-35',
+                  // só um sublinhado por vez: o que sai some na hora; o que entra cresce
+                  active === n.id ? 'scale-x-100' : 'scale-x-0 !duration-0 group-hover:scale-x-35 group-hover:!duration-300',
                 )}
               />
             </a>

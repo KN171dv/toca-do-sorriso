@@ -8,14 +8,15 @@ const FEATURE_LAYOUT = new Set(['hamburgueres', 'combos'])
 export function Menu() {
   const categories = getCategories()
   return (
-    <section id="cardapio" aria-labelledby="cardapio-titulo" className="relative bg-coal-950 pb-20 pt-20 lg:pt-28">
+    <section id="cardapio" aria-labelledby="cardapio-titulo" className="relative isolate bg-coal-950 pb-20 pt-20 lg:pt-28">
+      <div data-reveal="ambient" aria-hidden="true" className="pointer-events-none absolute inset-0 -z-20 bg-[radial-gradient(60%_45%_at_20%_6%,rgb(224_102_26/0.10),transparent_70%)]" />
       <div className="container-x">
-        <div data-reveal className="mb-8 flex flex-col gap-3 lg:mb-10 lg:flex-row lg:items-end lg:justify-between">
+        <div className="mb-8 flex flex-col gap-3 lg:mb-10 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p className="eyebrow mb-3">Cardápio completo</p>
-            <h2 id="cardapio-titulo" className="display text-[clamp(2.6rem,11vw,5.5rem)] text-cream-50">Escolha o seu.</h2>
+            <p data-reveal className="eyebrow mb-3">Cardápio completo</p>
+            <h2 data-reveal="title" id="cardapio-titulo" className="display text-[clamp(2.6rem,11vw,5.5rem)] text-cream-50">Escolha o seu.</h2>
           </div>
-          <p className="max-w-sm text-cream-500">Toque em um item para personalizar com adicionais e observações.</p>
+          <p data-reveal className="max-w-sm text-cream-500">Toque em um item para personalizar com adicionais e observações.</p>
         </div>
 
         <CategoryTabs categories={categories} />

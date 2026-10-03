@@ -12,16 +12,17 @@ export function Delivery() {
     { icon: <StoreIcon />, label: 'Pedido mínimo', value: formatMoney(deliveryConfig.minimumOrder), hint: 'Em produtos' },
   ]
   return (
-    <section id="delivery" aria-labelledby="delivery-titulo" className="relative bg-coal-950 py-20 lg:py-28">
+    <section id="delivery" aria-labelledby="delivery-titulo" className="relative isolate overflow-hidden bg-coal-950 py-20 lg:py-28">
+      <div data-reveal="ambient" aria-hidden="true" className="pointer-events-none absolute inset-0 -z-20 bg-[radial-gradient(60%_45%_at_70%_30%,rgb(224_102_26/0.14),transparent_70%)]" />
       <div className="container-x">
-        <div data-reveal className="mb-10 max-w-2xl">
-          <p className="eyebrow mb-3">Delivery e retirada</p>
-          <h2 id="delivery-titulo" className="display text-[clamp(2.6rem,11vw,5.5rem)] text-cream-50">Da brasa <span className="text-ember-500">até você.</span></h2>
+        <div className="mb-10 max-w-2xl">
+          <p data-reveal className="eyebrow mb-3">Delivery e retirada</p>
+          <h2 data-reveal="title" id="delivery-titulo" className="display text-[clamp(2.6rem,11vw,5.5rem)] text-cream-50">Da brasa <span className="text-ember-500">até você.</span></h2>
         </div>
 
         <ul className="grid gap-3 sm:grid-cols-3 lg:gap-5">
           {cards.map((c) => (
-            <li data-reveal key={c.label} className="rounded-3xl border border-cream-100/10 bg-coal-900 p-5 lg:p-7">
+            <li data-reveal="stat" key={c.label} className="rounded-3xl border border-cream-100/10 bg-coal-900 p-5 lg:p-7">
               <span className="grid size-11 place-items-center rounded-full bg-ember-500/15 text-ember-400">{c.icon}</span>
               <p className="mt-5 text-sm font-semibold uppercase tracking-[0.16em] text-cream-500">{c.label}</p>
               <p className="display mt-1 text-[2.1rem] text-cream-50 lg:text-[2.6rem]">{c.value}</p>
