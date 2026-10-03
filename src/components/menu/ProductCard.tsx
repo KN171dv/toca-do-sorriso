@@ -36,7 +36,7 @@ function AddButton({ product }: { product: Product }) {
 export function ProductCard({ product }: { product: Product }) {
   const openProduct = useUi((s) => s.openProduct)
   return (
-    <article data-reveal className="group relative flex flex-col overflow-hidden rounded-3xl border border-cream-100/8 bg-coal-900 transition-[border-color,translate] duration-300 ease-out hover:-translate-y-1 hover:border-ember-500/50">
+    <article data-reveal className="card-surface group relative flex flex-col overflow-hidden rounded-3xl transition-[border-color,translate] duration-300 ease-out hover:-translate-y-1 hover:!border-ember-500/40">
       <div className="relative">
         <ProductPhoto image={product.image} name={product.name} sizes="(min-width:1024px) 290px, (min-width:640px) 33vw, 50vw" className="aspect-square w-full [&_img]:transition-transform [&_img]:duration-700 [&_img]:ease-out group-hover:[&_img]:scale-[1.06]" />
         <Badges badges={product.badges} className="absolute left-2.5 top-2.5" />
@@ -61,8 +61,8 @@ export function ProductCard({ product }: { product: Product }) {
 export function ProductRow({ product }: { product: Product }) {
   const openProduct = useUi((s) => s.openProduct)
   return (
-    <article data-reveal className="group relative flex items-center gap-3.5 rounded-2xl border border-cream-100/8 bg-coal-900 p-2.5 pr-3.5 transition-[border-color,translate] duration-300 ease-out hover:-translate-y-1 hover:border-ember-500/50">
-      <ProductPhoto image={product.image} name={product.name} sizes="80px" className="size-20 shrink-0 rounded-xl" />
+    <article data-reveal className="card-surface group relative flex items-center gap-3.5 rounded-2xl p-2.5 pr-3.5 transition-[border-color,translate] duration-300 ease-out hover:-translate-y-1 hover:!border-ember-500/40">
+      <ProductPhoto image={product.image} name={product.name} sizes="80px" className="size-20 shrink-0 rounded-xl [&_img]:transition-transform [&_img]:duration-700 [&_img]:ease-out group-hover:[&_img]:scale-[1.06]" />
       <div className="min-w-0 flex-1">
         <Badges badges={product.badges} className="mb-1" />
         <h3 className="text-[1.02rem] font-semibold leading-snug text-cream-50">
