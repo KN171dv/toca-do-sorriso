@@ -33,7 +33,7 @@ Quando usar cada plugin 📥:
 - **Security Guidance** — ao tocar no checkout, em dados de cliente ou ao criar backend/admin.
 
 Onde cada lib do projeto entra (já instaladas, exceto R3F):
-- **GSAP + ScrollTrigger** — apresentação do hambúrguer (`BurgerExploded.tsx`: timeline por tempo, o scroll só dispara), parallax do hero e da seção Sobre, reveals (`useReveal.ts`), seção ativa do menu (`Header.tsx`). Registrados em `src/lib/motion.ts`.
+- **GSAP + ScrollTrigger + SplitText** — hambúrguer em destaque (`BurgerExploded.tsx`: abre uma vez por tempo e fica aberto; o scroll só dispara), parallax do hero e da seção Sobre, animações de scroll (`useReveal.ts`: títulos por linha, imagens com clip-path, números, brilhos), seção ativa do menu (`Header.tsx`). Registrados em `src/lib/motion.ts`.
 - **Motion** — entrada/saída de modal, carrinho e checkout (`components/ui/Sheet.tsx`). Fica em chunk assíncrono; não importar em componentes do primeiro render.
 - **Lenis** — scroll suave só em desktop (ponteiro fino), sincronizado com o ticker do GSAP (`hooks/useLenis.ts`).
 - **React Three Fiber** — NÃO instalado. O destaque usa 6 recortes 2D da foto "hambúrguer 3D" com transform. Só adicionar se houver um modelo 3D real, e confirmar com o usuário antes.
@@ -57,6 +57,9 @@ Onde cada lib do projeto entra (já instaladas, exceto R3F):
 6. **Mobile first**: alvos de toque ≥ 44px, sem overflow horizontal, inputs com fonte ≥ 16px.
 7. **Fotos reais primeiro.** Sem foto → placeholder identificado (`ProductPhoto`), nunca banco de imagens ou IA.
 8. HTML é pré-renderizado: nada de `window`/`localStorage` durante o render; estado do cliente entra em `useEffect`.
+9. **Conteúdo nunca invisível esperando animação.** Revelações via `data-reveal` (ver `docs/ARCHITECTURE.md`), com as proteções do `useReveal`. Nada de `visibility: hidden` em itens focáveis.
+10. **Imagens não passam do tamanho do arquivo** (fotos de produto: 500px) nem são cortadas onde o produto precisa aparecer inteiro (hero, modal).
+11. **Logo**: o arquivo atual tem "TOCA DD"; o nome correto fica em texto ao lado do selo até haver logo novo.
 
 ## Mapa rápido
 
