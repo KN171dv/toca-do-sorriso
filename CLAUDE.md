@@ -45,6 +45,7 @@ Onde cada lib do projeto entra (já instaladas, exceto R3F):
 - `npm run preview` — serve o build
 - `npm run typecheck` · `npm run lint`
 - `npm run images:fetch` — baixa as fotos originais do InstaDelivery e regera os WebP
+- `npm run og:build` — refaz a imagem de compartilhamento (`public/images/brand/og.jpg`)
 - `npm run burger:build` — refaz as camadas do hambúrguer em destaque a partir de `public/images/burger/hamburguer-3d.png` (ver `docs/ARCHITECTURE.md`)
 
 ## Regras do projeto
@@ -59,7 +60,8 @@ Onde cada lib do projeto entra (já instaladas, exceto R3F):
 8. HTML é pré-renderizado: nada de `window`/`localStorage` durante o render; estado do cliente entra em `useEffect`.
 9. **Conteúdo nunca invisível esperando animação.** Revelações via `data-reveal` (ver `docs/ARCHITECTURE.md`), com as proteções do `useReveal`. Nada de `visibility: hidden` em itens focáveis.
 10. **Imagens não passam do tamanho do arquivo** (fotos de produto: 500px) nem são cortadas onde o produto precisa aparecer inteiro (hero, modal).
-11. **Logo**: o arquivo atual tem "TOCA DD"; o nome correto fica em texto ao lado do selo até haver logo novo.
+11. **Logo**: o arquivo atual tem "TOCA DD"; o nome correto fica em texto ao lado do selo (40–44px) até haver logo novo.
+12. **Refinar por acabamento, nunca por remoção.** O calor da etapa 3 (etiquetas, destaques em laranja, brilhos, fagulhas) é a base; variedade vem de composição e capricho. Ver "Direção de arte" em `docs/ARCHITECTURE.md`.
 
 ## Mapa rápido
 

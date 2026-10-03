@@ -42,8 +42,18 @@ A UI nunca importa `products` diretamente: usa `src/lib/catalog.ts`. Trocar a or
 - A âncora `#destaque` para no topo da seção (`data-scroll-offset="0"` lido por `scrollToTarget`), porque a seção já reserva o espaço do cabeçalho no próprio padding.
 - `prefers-reduced-motion`: aberto desde o início, desenhado em CSS (`transform` inline + classes `motion-reduce:`), sem timeline. A lista `sr-only` de ingredientes existe em todos os modos.
 
+## Direção de arte (etapa 5: calor da etapa 3 + acabamento)
+- A etapa 4 (menos fórmula por **remoção**) foi revertida (`git revert`, commit "Reverte a etapa 4"); a regra é refinar por acabamento, nunca por remoção.
+- Etiquetas laranja, títulos grandes com destaque laranja, brilhos e fagulhas ficam. A variação vem da **composição** de cada seção: Mais pedidos com o 1º card mais largo; Cardápio com título menor e abas fortes; Sobre com foto grande + lista de lanchonete (linhas tracejadas); Delivery com painel único dos três números + bairros em tabela; Instagram com a faixa e a legenda "Do nosso cardápio".
+- Brilho de fundo forte no hero, no destaque e no CTA final; suave (~0,08–0,11) nas demais. Junções em gradiente entre coal-900 e coal-950.
+- Acabamento: `Money` (algarismos tabulares, "R$" menor) em todo preço; `.card-surface` (borda fina + luz interna no topo) nos cards; sombra laranja dos botões suave e difusa (`shadow-ember`, `shadow-ember-pressed`); placeholder "Foto em breve" discreto.
+- Carrinho: a barra flutuante só existe abaixo de 768px; a partir daí o botão do cabeçalho mostra o subtotal (a barra cobria o "+" de itens na base da tela). Entre 1024 e 1279px o status do cabeçalho fica compacto.
+
 ## Hero
-- Foto do Big Sorriso (arquivo de 500px) exibida no máximo com 500px, sem máscara (o hambúrguer vai até a borda da foto): moldura arredondada + brilho ambiente atrás. Continua sendo o LCP (`preload`, `fetchpriority=high`, `width`/`height`).
+- `featured.heroVariant` (`src/data/featured.ts`): `'foto'` (padrão) = foto real do Big Sorriso; `'3d'` = recorte montado do Duplo Bacon (`public/images/burger/hamburguer-3d-montado.webp`, gerado por `npm run burger:build`), legenda "Imagem ilustrativa", pílula abre o Duplo Bacon. A pré-carga do LCP segue a variante (`heroPreload` em `vite.config.ts`, marcador `<!--HERO_PRELOAD-->` no `index.html`).
+- Foto sempre nítida, no máximo 500px, sem máscara nem degradê sobre o lanche. Sem contorno chapado: sombra quente e profunda e o brilho da brasa passando por trás. A pílula "Na foto" (abre o produto) fica na borda inferior; no celular, quase toda abaixo da foto, sem cobrir o lanche.
+- Fagulhas (`Embers`): poucas e variadas — a maioria pequena e rápida, ~1 em 5 maior, lenta e desfocada.
+- Continua sendo o LCP (`preload`, `fetchpriority=high`, `width`/`height`).
 - Entrada em CSS puro, só com deslocamento. Saída (scrub) só com deslocamento e opacidade.
 - Título limitado pela largura **e** pela altura da tela; em telas baixas (< 700px de altura, mobile) o parágrafo sai e, abaixo de 620px, a foto encolhe e a etiqueta "Na foto" sai — "Pedir agora" e "Ver por dentro" aparecem sem rolar em qualquer largura.
 
@@ -63,7 +73,7 @@ A UI nunca importa `products` diretamente: usa `src/lib/catalog.ts`. Trocar a or
 - Seções `coal-900` têm junções em gradiente com as vizinhas `coal-950`.
 
 ## Logo
-- O arquivo `public/images/brand/logo.webp` (e `logo-192/512.png`) diz **"TOCA DD SORRISO"**. Enquanto não houver logo corrigido, o cabeçalho usa o selo (`logo-80.webp`, decorativo, `alt=""`) com o nome correto em texto ao lado. Rodapé mantém o selo. Quando chegar um logo novo, gerar as versões com sharp e atualizar favicon/manifest.
+- O arquivo `public/images/brand/logo.webp` (e `logo-192/512.png`) diz **"TOCA DD SORRISO"**. Enquanto não houver logo corrigido, o cabeçalho e o menu mobile usam o selo (`logo-96.webp`, 40px no celular e 44px a partir de 640px, decorativo, `alt=""`) com o nome correto em texto ao lado. Rodapé mantém o selo. Quando chegar um logo novo, gerar as versões com sharp e atualizar favicon/manifest.
 
 ## Recarregar (F5)
 - Script mínimo no `<head>` (`index.html`): `history.scrollRestoration = 'manual'` e, só em recarregamento, remove a âncora da URL e vai ao topo antes do conteúdo. O `App` reforça o topo no Lenis e chama `ScrollTrigger.refresh()`. Link direto com âncora continua funcionando.
@@ -88,6 +98,11 @@ A UI nunca importa `products` diretamente: usa `src/lib/catalog.ts`. Trocar a or
 - [ ] Confirmar tabela de taxa de entrega (bairro × km) e o tempo estimado.
 - [ ] Fotos: Brasileirinho Burguer e os dois pratos feitos.
 - [ ] Logo corrigido ("DO").
+- [ ] Fotos reais da loja, da chapa e da equipe (seção Sobre; ver comentário em `Experience.tsx`).
+- [ ] Foto do hero em resolução maior (hoje 500px) e posts reais do Instagram.
+
+## Imagem de compartilhamento
+- `public/images/brand/og.jpg` (1200×630): nome em texto (Anton + Barlow) e a foto real do hambúrguer, sem o selo com erro. `npm run og:build` (`scripts/og-image.mjs`) renderiza com Playwright — ferramenta só de desenvolvimento (`npm i --no-save playwright` ou `PLAYWRIGHT_MODULE=...`).
 - [ ] CEP e coordenadas em `src/data/business.ts` (SEO local).
 - [ ] Rodar `npm run images:fetch` para regerar as fotos a partir dos originais.
 - [ ] Analytics/Pixel, se desejado.
