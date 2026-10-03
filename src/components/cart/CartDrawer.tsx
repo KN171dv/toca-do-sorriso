@@ -48,7 +48,7 @@ export function CartDrawer() {
                 <div className="min-w-0 flex-1">
                   <div className="flex items-start justify-between gap-2">
                     <p className="font-semibold leading-snug text-cream-50">{line.name}</p>
-                    <button type="button" onClick={() => remove(line.key)} aria-label={`Remover ${line.name}`} className="-mr-2 -mt-2 grid size-10 shrink-0 place-items-center rounded-full text-cream-500 transition-colors hover:bg-cream-100/10 hover:text-danger">
+                    <button type="button" onClick={() => remove(line.key)} aria-label={`Remover ${line.name}`} className="-mr-2.5 -mt-2.5 grid size-11 shrink-0 place-items-center rounded-full text-cream-500 transition-colors hover:bg-cream-100/10 hover:text-danger">
                       <TrashIcon width={17} height={17} />
                     </button>
                   </div>
@@ -59,7 +59,7 @@ export function CartDrawer() {
                   )}
                   {line.note && <p className="mt-0.5 text-sm italic text-cream-500">“{line.note}”</p>}
                   <div className="mt-2 flex items-center justify-between">
-                    <QuantityStepper size="sm" label={`quantidade de ${line.name}`} value={line.quantity} min={0} onChange={(v) => setQuantity(line.key, v)} />
+                    <QuantityStepper label={`quantidade de ${line.name}`} value={line.quantity} min={0} onChange={(v) => setQuantity(line.key, v)} />
                     <span className="font-bold tabular-nums text-cream-50">{formatMoney(lineTotal(line))}</span>
                   </div>
                 </div>

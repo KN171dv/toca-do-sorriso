@@ -25,11 +25,11 @@ export function ProductPhoto({ image, name, size = 'sm', className, eager, sizes
       <div
         role="img"
         aria-label={`${name} — foto em breve`}
-        className={cx('grid place-items-center bg-[radial-gradient(circle_at_50%_60%,#3a2414,#17100b_70%)] text-ember-500/70', className)}
+        className={cx('grid place-items-center bg-[radial-gradient(120%_90%_at_50%_35%,rgb(246_231_206/0.05),transparent_65%)] bg-coal-800 text-cream-500/45', className)}
       >
         <div className="flex flex-col items-center gap-1.5 p-2 text-center">
           <FlameIcon width={size === 'lg' ? 40 : 24} height={size === 'lg' ? 40 : 24} />
-          <span className="text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-cream-500">Foto em breve</span>
+          <span className="text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-cream-500/80">Foto em breve</span>
         </div>
       </div>
     )
@@ -39,11 +39,11 @@ export function ProductPhoto({ image, name, size = 'sm', className, eager, sizes
     <div className={cx('overflow-hidden bg-coal-800', className)}>
       <img
         src={size === 'lg' ? image.src : (image.srcSmall ?? image.src)}
-        srcSet={image.srcSmall ? `${image.srcSmall} 320w, ${image.src} 640w` : undefined}
+        srcSet={image.srcSmall ? `${image.srcSmall} 320w, ${image.src} 500w` : undefined}
         sizes={sizes ?? (size === 'lg' ? '(min-width: 768px) 520px, 100vw' : '160px')}
         alt={image.alt}
-        width={640}
-        height={640}
+        width={500}
+        height={500}
         loading={eager ? 'eager' : 'lazy'}
         decoding="async"
         onLoad={() => setLoaded(true)}

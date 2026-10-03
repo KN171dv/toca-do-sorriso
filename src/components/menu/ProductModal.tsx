@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { CartAddon } from '@/types'
 import { getAddonsFor, getProduct } from '@/lib/catalog'
+import { flyToCart } from '@/lib/flyToCart'
 import { formatMoney } from '@/lib/format'
 import { useCart } from '@/store/cart'
 import { useUi } from '@/store/ui'
@@ -34,8 +35,9 @@ export function ProductModal() {
   const addonsTotal = addons.reduce((sum, a) => sum + a.price * (picked[a.id] ?? 0), 0)
   const total = product ? (product.price + addonsTotal) * quantity : 0
 
-  const confirm = () => {
+  const confirm = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!product) return
+    flyToCart(e.currentTarget, product.image?.srcSmall ?? product.image?.src)
     const chosen: CartAddon[] = addons
       .filter((a) => (picked[a.id] ?? 0) > 0)
       .map((a) => ({ addonId: a.id, name: a.name, price: a.price, quantity: picked[a.id] }))
@@ -52,7 +54,10 @@ export function ProductModal() {
           </button>
 
           <div className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain md:flex-row md:overflow-hidden">
-            <ProductPhoto image={product.image} name={product.name} size="lg" eager className="aspect-[4/3] w-full shrink-0 md:aspect-auto md:h-auto md:w-[46%]" />
+            {/* Foto inteira: quadrada, no máximo 500px (tamanho do arquivo), sem corte nem ampliação; o resto é fundo */}
+            <div className="grid shrink-0 place-items-center bg-coal-950 bg-[radial-gradient(closest-side,rgb(224_102_26/0.2),transparent)] p-4 md:w-[46%] md:p-6">
+              <ProductPhoto image={product.image} name={product.name} size="lg" eager sizes="(min-width: 768px) 380px, min(100vw, 40dvh)" className="aspect-square w-[min(100%,40dvh,500px)] rounded-2xl md:w-[min(100%,500px)]" />
+            </div>
 
             <div className="flex min-h-0 flex-1 flex-col md:overflow-y-auto md:overscroll-contain">
               <div className="p-5 md:p-7 md:pr-14">
@@ -76,7 +81,7 @@ export function ProductModal() {
                           {a.description && <span className="block text-sm text-cream-500">{a.description}</span>}
                           <span className="text-sm font-semibold tabular-nums text-ember-400">+ {formatMoney(a.price)}</span>
                         </span>
-                        <QuantityStepper size="sm" label={a.name} value={picked[a.id] ?? 0} max={a.max} onChange={(v) => setPicked((s) => ({ ...s, [a.id]: v }))} />
+                        <QuantityStepper label={a.name} value={picked[a.id] ?? 0} max={a.max} onChange={(v) => setPicked((s) => ({ ...s, [a.id]: v }))} />
                       </li>
                     ))}
                   </ul>

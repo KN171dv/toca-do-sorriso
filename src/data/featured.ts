@@ -2,6 +2,13 @@
  * Curadoria de destaques — tudo aponta para produtos reais do cardápio.
  */
 export const featured = {
+  /**
+   * Imagem do hero:
+   *  'foto' → foto real do produto heroProductId (padrão)
+   *  '3d'   → recorte montado do hambúrguer 3D (Duplo Bacon), nítido e sem fundo;
+   *           legenda "Imagem ilustrativa", o botão abre explodedProductId.
+   */
+  heroVariant: 'foto' as 'foto' | '3d',
   /** Foto usada no hero (fundo escuro, mais dramática). */
   heroProductId: 'big-sorriso',
   /** Produto da apresentação "exploded view". */
@@ -12,30 +19,33 @@ export const featured = {
   galleryIds: ['big-sorriso', 'duplo-bacon', 'tudao', 'melt-burguer', 'churras-burguer', 'salada-burguer', 'combo-casal-2', 'burguer-bacon'],
 } as const
 
-export interface BurgerLayer {
+/**
+ * Rótulos da apresentação do Duplo Bacon (seção "Destaque").
+ * As camadas são recortes reais de public/images/burger/hamburguer-3d.png
+ * (geometria em ./burger3d.ts, gerada por scripts/burger-3d.mjs).
+ * Ingredientes = descrição do produto em products.ts; a imagem mostra
+ * duas fatias de cheddar, uma sobre cada carne.
+ */
+export interface BurgerLabel {
   id: string
-  /** Rótulo — ingredientes reais da descrição do produto. */
   label: string
   detail?: string
-  /**
-   * Arte da camada. Hoje: ilustração (design/burger-layers/*.svg).
-   * Quando houver fotos recortadas reais, basta trocar o arquivo.
-   */
-  image: string
-  /** Proporção altura/largura do arquivo. */
-  ratio: number
-  /** Posição (em % da largura do palco) do topo da camada, montado. */
-  y: number
+  /** Peça do hambúrguer a que o rótulo pertence (burgerPieces[].id). */
+  piece: string
+  /** Altura do conector dentro da peça (0 = topo, 1 = base). */
+  at: number
+  /** Onde o conector toca a comida, em % da largura do quadro. */
+  edge: number
 }
 
-/** Camadas do Duplo Bacon, de cima para baixo. */
-export const explodedLayers: BurgerLayer[] = [
-  { id: 'pao-topo', label: 'Pão brioche', detail: 'Tostado na manteiga', image: '/images/burger-layers/bun-top.webp', ratio: 380 / 800, y: 0 },
-  { id: 'maionese', label: 'Maionese temperada', image: '/images/burger-layers/mayo.webp', ratio: 150 / 800, y: 33 },
-  { id: 'bacon', label: 'Bacon', image: '/images/burger-layers/bacon.webp', ratio: 190 / 800, y: 33 },
-  { id: 'cheddar-1', label: 'Queijo cheddar', image: '/images/burger-layers/cheddar.webp', ratio: 190 / 800, y: 45 },
-  { id: 'carne-1', label: 'Carne 100g', detail: 'Na brasa', image: '/images/burger-layers/patty.webp', ratio: 230 / 800, y: 51 },
-  { id: 'cheddar-2', label: 'Queijo cheddar', image: '/images/burger-layers/cheddar.webp', ratio: 190 / 800, y: 66 },
-  { id: 'carne-2', label: 'Carne 100g', detail: '2 carnes no total', image: '/images/burger-layers/patty.webp', ratio: 230 / 800, y: 72 },
-  { id: 'pao-base', label: 'Pão brioche', detail: 'Base tostada', image: '/images/burger-layers/bun-bottom.webp', ratio: 220 / 800, y: 90 },
+/** De cima para baixo, na ordem em que aparecem. */
+export const burgerLabels: BurgerLabel[] = [
+  { id: 'pao-topo', label: 'Pão brioche', detail: 'Tostado na manteiga', piece: 'pao-topo', at: 0.36, edge: 90 },
+  { id: 'maionese', label: 'Maionese temperada', piece: 'maionese', at: 0.2, edge: 80 },
+  { id: 'bacon', label: 'Bacon', piece: 'bacon', at: 0.44, edge: 86 },
+  { id: 'cheddar-1', label: 'Queijo cheddar', piece: 'carne-1', at: 0.26, edge: 92 },
+  { id: 'carne-1', label: 'Carne 100g', detail: 'Na brasa', piece: 'carne-1', at: 0.71, edge: 91 },
+  { id: 'cheddar-2', label: 'Queijo cheddar', piece: 'carne-2', at: 0.23, edge: 91 },
+  { id: 'carne-2', label: 'Carne 100g', detail: '2 carnes no total', piece: 'carne-2', at: 0.69, edge: 91 },
+  { id: 'pao-base', label: 'Pão brioche', detail: 'Tostado na manteiga', piece: 'pao-base', at: 0.45, edge: 93 },
 ]

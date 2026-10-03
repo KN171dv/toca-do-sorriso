@@ -30,7 +30,9 @@
   --font-sans: 'Barlow', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
   --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
-  --shadow-ember: 0 10px 40px -10px rgb(245 138 42 / 0.55);
+  /* Sombra quente dos botões: suave e difusa; encolhe quando pressionado. */
+  --shadow-ember: 0 14px 34px -16px rgb(245 138 42 / 0.5), 0 2px 8px -4px rgb(224 102 26 / 0.35);
+  --shadow-ember-pressed: 0 6px 16px -10px rgb(245 138 42 / 0.5);
 
   --animate-rise: rise 9s linear infinite;
   --animate-smoke: smoke 14s ease-in-out infinite;
@@ -96,7 +98,7 @@
   .eyebrow {
     font-size: 0.78rem;
     font-weight: 700;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--color-ember-400);
   }
@@ -120,6 +122,12 @@
   .field::placeholder { color: var(--color-cream-500); }
   .field:focus { outline: none; border-color: var(--color-ember-500); box-shadow: 0 0 0 3px rgb(245 138 42 / 0.25); }
   .field[aria-invalid='true'] { border-color: var(--color-danger); }
+  /* Superfície dos cards: borda fina + luz interna sutil no topo (em vez de borda chapada). */
+  .card-surface {
+    border: 1px solid rgb(246 231 206 / 0.07);
+    background: linear-gradient(180deg, rgb(246 231 206 / 0.035), transparent 38%), var(--color-coal-900);
+    box-shadow: inset 0 1px 0 rgb(246 231 206 / 0.07);
+  }
   .no-scrollbar { scrollbar-width: none; }
   .no-scrollbar::-webkit-scrollbar { display: none; }
   /* Granulado sutil sobre fundos escuros (dá corpo, evita "flat") */
@@ -153,7 +161,35 @@
 /* Entrada do hero em CSS puro: começa no primeiro paint, sem depender de JS. */
 @keyframes line-up { from { transform: translate3d(0, 110%, 0); } to { transform: none; } }
 @keyframes fade-up { from { opacity: 0; transform: translate3d(0, 18px, 0); } to { opacity: 1; transform: none; } }
-@keyframes photo-in { from { transform: scale(1.14); } to { transform: none; } }
+@keyframes photo-in { from { transform: translate3d(0, 18px, 0); } to { transform: none; } }
 .hero-line { animation: line-up 0.9s var(--ease-out-expo) both; animation-delay: calc(0.12s + var(--i, 0) * 0.09s); }
 .hero-fade { animation: fade-up 0.7s var(--ease-out-expo) both; animation-delay: calc(0.45s + var(--i, 0) * 0.08s); }
-.hero-photo { animation: photo-in 1.4s var(--ease-out-expo) both; }
+.hero-photo { animation: photo-in 1s var(--ease-out-expo) both; }
+
+/* Carrinho do cabeçalho reage a cada item adicionado. */
+@keyframes cart-bump {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.14); }
+  100% { transform: scale(1); }
+}
+
+/* Barras de rolagem do modal, carrinho e checkout no tom do site (finas e escuras). */
+[role='dialog'], [role='dialog'] * {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-coal-600) transparent;
+}
+[role='dialog'] ::-webkit-scrollbar { width: 8px; height: 8px; }
+[role='dialog'] ::-webkit-scrollbar-track { background: transparent; }
+[role='dialog'] ::-webkit-scrollbar-thumb { background: var(--color-coal-600); border-radius: 9999px; border: 2px solid var(--color-coal-900); }
+[role='dialog'] ::-webkit-scrollbar-thumb:hover { background: var(--color-cream-500); }
+
+/* Máscara por linha dos títulos (SplitText, overflow: clip): alarga só a área de
+   recorte para acentos e descendentes não serem cortados — sem mudar o layout. */
+[data-reveal='title'] > div {
+  overflow-clip-margin: 0.2em;
+}
+/* O SplitText grava text-align: start nas linhas; títulos centralizados (CTA) precisam herdar. */
+[data-reveal='title'] > div,
+[data-reveal='title'] > div > div {
+  text-align: inherit !important;
+}

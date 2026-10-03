@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useState } from 'react'
 import { Footer } from '@/components/layout/Footer'
 import { Header } from '@/components/layout/Header'
 import { MobileCartBar } from '@/components/layout/MobileCartBar'
+import { CartAnnouncer } from '@/components/ui/CartAnnouncer'
 import { BestSellers } from '@/components/sections/BestSellers'
 import { BurgerExploded } from '@/components/sections/BurgerExploded'
 import { Delivery } from '@/components/sections/Delivery'
@@ -10,7 +11,8 @@ import { FinalCta } from '@/components/sections/FinalCta'
 import { Hero } from '@/components/sections/Hero'
 import { Instagram } from '@/components/sections/Instagram'
 import { Menu } from '@/components/sections/Menu'
-import { useLenis } from '@/hooks/useLenis'
+import { getLenis, useLenis } from '@/hooks/useLenis'
+import { ScrollTrigger } from '@/lib/motion'
 import { useReveal } from '@/hooks/useReveal'
 import { useCart } from '@/store/cart'
 import { useCheckout } from '@/store/ui'
@@ -30,6 +32,13 @@ export default function App() {
   const [mounted, setMounted] = useState(false)
   useEffect(() => {
     setMounted(true)
+    // F5: garante o topo depois da hidratação (o script do <head> já tirou a âncora)
+    const nav = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined
+    if (nav?.type === 'reload') {
+      window.scrollTo(0, 0)
+      getLenis()?.scrollTo(0, { immediate: true })
+      requestAnimationFrame(() => ScrollTrigger.refresh())
+    }
     // Carrinho e dados salvos entram depois da hidratação (HTML estático = carrinho vazio).
     void useCart.persist.rehydrate()
     void useCheckout.persist.rehydrate()
@@ -52,6 +61,7 @@ export default function App() {
       </main>
       <Footer />
       <MobileCartBar />
+      <CartAnnouncer />
       {mounted && (
         <Suspense fallback={null}>
           <ProductModal />

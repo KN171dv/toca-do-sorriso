@@ -6,6 +6,18 @@ import { businessInfo, fullAddress } from './src/data/business.ts'
 import { deliveryZones } from './src/data/delivery.ts'
 import { openingHours } from './src/data/hours.ts'
 import { paymentMethods } from './src/data/payments.ts'
+import { featured } from './src/data/featured.ts'
+import { HERO_3D } from './src/data/burger3d.ts'
+import { products } from './src/data/products.ts'
+
+/** Pré-carga da imagem do hero (LCP), conforme featured.heroVariant. */
+function heroPreload(): string {
+  if (featured.heroVariant === '3d') {
+    return `<link rel="preload" as="image" href="${HERO_3D.src}" imagesrcset="${HERO_3D.srcSmall} ${HERO_3D.widthSmall}w, ${HERO_3D.src} ${HERO_3D.width}w" imagesizes="(min-width: 1024px) 500px, min(88vw, 38svh, 500px)" fetchpriority="high" />`
+  }
+  const src = products.find((p) => p.id === featured.heroProductId)?.image?.src
+  return src ? `<link rel="preload" as="image" href="${src}" fetchpriority="high" />` : ''
+}
 
 const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
@@ -51,6 +63,7 @@ function seoPlugin(siteUrl: string): Plugin {
         .replaceAll('%OG_IMAGE%', abs('/images/brand/og.jpg'))
         .replaceAll('%ADDRESS%', fullAddress())
         .replace('<!--CANONICAL-->', url ? `<link rel="canonical" href="${url}/" />\n    <meta property="og:url" content="${url}/" />` : '')
+        .replace('<!--HERO_PRELOAD-->', heroPreload())
         .replace('<!--JSON_LD-->', `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`)
     },
   }

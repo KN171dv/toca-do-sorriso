@@ -4,7 +4,11 @@ import { cartCount, cartSubtotal } from '@/lib/pricing'
 import { cx, formatMoney } from '@/lib/format'
 import { BagIcon } from '@/components/ui/Icons'
 
-/** Barra fixa inferior: carrinho sempre a um toque quando há itens. */
+/**
+ * Barra fixa inferior no celular/tablet estreito: carrinho a um toque quando há itens.
+ * A partir de 768px some — o botão do cabeçalho mostra o subtotal —, porque
+ * flutuando no canto ela cobria o "+" de itens na base da tela.
+ */
 export function MobileCartBar() {
   const lines = useCart((s) => s.lines)
   const { panel, productId, setPanel } = useUi()
@@ -15,9 +19,9 @@ export function MobileCartBar() {
     <div
       aria-hidden={!visible}
       className={cx(
-        'transition-[transform,opacity,visibility] duration-400 ease-out-expo',
+        'transition-[translate,scale,opacity,visibility] duration-400 ease-out-expo',
         visible ? 'visible translate-y-0 opacity-100' : 'invisible translate-y-24 opacity-0',
-        'fixed inset-x-0 bottom-0 z-30 px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:inset-x-auto md:right-6 md:w-[380px] md:px-0 md:pb-6',
+        'fixed inset-x-0 bottom-0 z-30 px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:hidden',
       )}
     >
           <button

@@ -29,9 +29,9 @@ export function CategoryTabs({ categories }: { categories: Category[] }) {
   }, [active])
 
   return (
-    <div className="sticky top-16 z-20 -mx-[clamp(1rem,4vw,2.5rem)] border-y border-cream-100/10 bg-coal-950/90 backdrop-blur-md">
+    <div className="sticky top-16 z-20 -mx-[clamp(1rem,4vw,2.5rem)] border-y border-cream-100/10 bg-coal-950/95 shadow-[0_12px_24px_-18px_rgb(0_0_0/0.9)] backdrop-blur-md">
       <nav aria-label="Categorias do cardápio">
-        <div ref={bar} className="no-scrollbar flex gap-2 overflow-x-auto px-[clamp(1rem,4vw,2.5rem)] py-2.5">
+        <div ref={bar} className="no-scrollbar flex gap-2 overflow-x-auto px-[clamp(1rem,4vw,2.5rem)] py-3">
           {categories.map((c) => (
             <a
               key={c.id}
@@ -40,8 +40,8 @@ export function CategoryTabs({ categories }: { categories: Category[] }) {
               aria-current={active === c.id ? 'true' : undefined}
               onClick={(e) => { e.preventDefault(); scrollToTarget(`#cat-${c.id}`, -130) }}
               className={cx(
-                'inline-flex min-h-11 shrink-0 items-center rounded-full px-5 text-sm font-bold uppercase tracking-[0.1em] transition-colors duration-200',
-                active === c.id ? 'bg-ember-500 text-coal-950' : 'bg-coal-800 text-cream-300 hover:text-cream-50',
+                'inline-flex min-h-12 shrink-0 items-center rounded-full border px-5 text-[0.82rem] font-bold uppercase tracking-[0.1em] transition-[background-color,border-color,color,box-shadow] duration-200 sm:px-6',
+                active === c.id ? 'border-ember-500 bg-ember-500 text-coal-950 shadow-ember' : 'border-cream-100/10 bg-coal-900 text-cream-300 hover:border-cream-100/25 hover:text-cream-50',
               )}
             >
               {c.name}

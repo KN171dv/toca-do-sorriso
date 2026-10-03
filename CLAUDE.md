@@ -33,10 +33,10 @@ Quando usar cada plugin 📥:
 - **Security Guidance** — ao tocar no checkout, em dados de cliente ou ao criar backend/admin.
 
 Onde cada lib do projeto entra (já instaladas, exceto R3F):
-- **GSAP + ScrollTrigger** — tudo que é ligado ao scroll: exploded view (`BurgerExploded.tsx`), parallax do hero e da seção Experiência, reveals (`useReveal.ts`). Registrados em `src/lib/motion.ts`.
+- **GSAP + ScrollTrigger + SplitText** — hambúrguer em destaque (`BurgerExploded.tsx`: abre uma vez por tempo e fica aberto; o scroll só dispara), parallax do hero e da seção Sobre, animações de scroll (`useReveal.ts`: títulos por linha, imagens com clip-path, números, brilhos), seção ativa do menu (`Header.tsx`). Registrados em `src/lib/motion.ts`.
 - **Motion** — entrada/saída de modal, carrinho e checkout (`components/ui/Sheet.tsx`). Fica em chunk assíncrono; não importar em componentes do primeiro render.
 - **Lenis** — scroll suave só em desktop (ponteiro fino), sincronizado com o ticker do GSAP (`hooks/useLenis.ts`).
-- **React Three Fiber** — NÃO instalado. O exploded view usa camadas 2D com transform. Só adicionar se houver um modelo 3D real do hambúrguer, e confirmar com o usuário antes.
+- **React Three Fiber** — NÃO instalado. O destaque usa 6 recortes 2D da foto "hambúrguer 3D" com transform. Só adicionar se houver um modelo 3D real, e confirmar com o usuário antes.
 
 ## Comandos
 
@@ -45,7 +45,8 @@ Onde cada lib do projeto entra (já instaladas, exceto R3F):
 - `npm run preview` — serve o build
 - `npm run typecheck` · `npm run lint`
 - `npm run images:fetch` — baixa as fotos originais do InstaDelivery e regera os WebP
-- `npm run layers:render` — rasteriza `design/burger-layers/*.svg` → `public/images/burger-layers`
+- `npm run og:build` — refaz a imagem de compartilhamento (`public/images/brand/og.jpg`)
+- `npm run burger:build` — refaz as camadas do hambúrguer em destaque a partir de `public/images/burger/hamburguer-3d.png` (ver `docs/ARCHITECTURE.md`)
 
 ## Regras do projeto
 
@@ -57,12 +58,16 @@ Onde cada lib do projeto entra (já instaladas, exceto R3F):
 6. **Mobile first**: alvos de toque ≥ 44px, sem overflow horizontal, inputs com fonte ≥ 16px.
 7. **Fotos reais primeiro.** Sem foto → placeholder identificado (`ProductPhoto`), nunca banco de imagens ou IA.
 8. HTML é pré-renderizado: nada de `window`/`localStorage` durante o render; estado do cliente entra em `useEffect`.
+9. **Conteúdo nunca invisível esperando animação.** Revelações via `data-reveal` (ver `docs/ARCHITECTURE.md`), com as proteções do `useReveal`. Nada de `visibility: hidden` em itens focáveis.
+10. **Imagens não passam do tamanho do arquivo** (fotos de produto: 500px) nem são cortadas onde o produto precisa aparecer inteiro (hero, modal).
+11. **Logo**: o arquivo atual tem "TOCA DD"; o nome correto fica em texto ao lado do selo (40–44px) até haver logo novo.
+12. **Refinar por acabamento, nunca por remoção.** O calor da etapa 3 (etiquetas, destaques em laranja, brilhos, fagulhas) é a base; variedade vem de composição e capricho. Ver "Direção de arte" em `docs/ARCHITECTURE.md`.
 
 ## Mapa rápido
 
-- `src/data/` — business, hours, delivery, payments, categories, addons, products, featured
-- `src/lib/` — catalog, pricing, hours, validation, whatsapp, orderService, motion, format
-- `src/store/` — `cart.ts` (carrinho persistido), `ui.ts` (painéis + dados do checkout)
+- `src/data/` — business, hours, delivery, payments, categories, addons, products, featured (+ `burgerLabels`), burger3d (gerado)
+- `src/lib/` — catalog, pricing, hours, validation, whatsapp, orderService, motion, format, flyToCart
+- `src/store/` — `cart.ts` (carrinho persistido + `lastAdded` para feedback), `ui.ts` (painéis + dados do checkout)
 - `src/components/sections/` — Hero, BurgerExploded, BestSellers, Menu, Experience, Delivery, Instagram, FinalCta
 - `src/components/{menu,cart,checkout,layout,ui}/`
 - `docs/ARCHITECTURE.md` — arquitetura, pendências e caminho para o admin/backend

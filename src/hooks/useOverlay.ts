@@ -1,4 +1,4 @@
-import { useEffect, type RefObject } from 'react'
+import { useEffect, useRef, type RefObject } from 'react'
 import { getLenis } from './useLenis'
 
 let locks = 0
@@ -6,8 +6,14 @@ let locks = 0
 /**
  * Comportamento comum de modal/drawer: trava o scroll da página, fecha com
  * Esc, prende o foco dentro do painel e devolve o foco ao fechar.
+ *
+ * `onClose` fica numa ref: o efeito depende só de `open`. Se dependesse da
+ * função (recriada a cada render), cada tecla digitada num campo do painel
+ * reexecutaria o efeito e o foco voltaria para o [data-autofocus].
  */
 export function useOverlay(open: boolean, ref: RefObject<HTMLElement | null>, onClose: () => void): void {
+  const closeRef = useRef(onClose)
+  useEffect(() => { closeRef.current = onClose })
   useEffect(() => {
     if (!open) return
     const previous = document.activeElement as HTMLElement | null
@@ -22,7 +28,7 @@ export function useOverlay(open: boolean, ref: RefObject<HTMLElement | null>, on
     window.setTimeout(() => (panel?.querySelector<HTMLElement>('[data-autofocus]') ?? panel)?.focus({ preventScroll: true }), 30)
 
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') { e.stopPropagation(); onClose(); return }
+      if (e.key === 'Escape') { e.stopPropagation(); closeRef.current(); return }
       if (e.key !== 'Tab') return
       const items = focusables()
       if (!items.length) return
@@ -41,5 +47,5 @@ export function useOverlay(open: boolean, ref: RefObject<HTMLElement | null>, on
       }
       previous?.focus?.({ preventScroll: true })
     }
-  }, [open, ref, onClose])
+  }, [open, ref])
 }

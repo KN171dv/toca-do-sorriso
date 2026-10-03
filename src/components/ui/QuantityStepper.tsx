@@ -1,4 +1,3 @@
-import { cx } from '@/lib/format'
 import { MinusIcon, PlusIcon } from './Icons'
 
 interface Props {
@@ -7,15 +6,12 @@ interface Props {
   min?: number
   max?: number
   label: string
-  size?: 'sm' | 'md'
 }
 
 /** Controle − / + com alvos de toque ≥ 44px. */
-export function QuantityStepper({ value, onChange, min = 0, max = 99, label, size = 'md' }: Props) {
-  const btn = cx(
-    'grid place-items-center rounded-full text-cream-50 transition-colors duration-150 hover:bg-cream-100/10 active:scale-95 disabled:opacity-30',
-    size === 'md' ? 'size-11' : 'size-10',
-  )
+export function QuantityStepper({ value, onChange, min = 0, max = 99, label }: Props) {
+  const btn =
+    'grid size-11 place-items-center rounded-full text-cream-50 transition-[background-color,scale] duration-150 hover:bg-cream-100/10 active:scale-95 disabled:opacity-30'
   return (
     <div role="group" aria-label={label} className="inline-flex items-center rounded-full border border-coal-600 bg-coal-900">
       <button type="button" className={btn} onClick={() => onChange(Math.max(min, value - 1))} disabled={value <= min} aria-label={`Diminuir ${label}`}>
