@@ -54,7 +54,10 @@ export function ProductModal() {
           </button>
 
           <div className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain md:flex-row md:overflow-hidden">
-            <ProductPhoto image={product.image} name={product.name} size="lg" eager className="aspect-[4/3] w-full shrink-0 md:aspect-auto md:h-auto md:w-[46%]" />
+            {/* Foto inteira: quadrada, no máximo 500px (tamanho do arquivo), sem corte nem ampliação; o resto é fundo */}
+            <div className="grid shrink-0 place-items-center bg-coal-950 bg-[radial-gradient(closest-side,rgb(224_102_26/0.2),transparent)] p-4 md:w-[46%] md:p-6">
+              <ProductPhoto image={product.image} name={product.name} size="lg" eager sizes="(min-width: 768px) 380px, min(100vw, 40dvh)" className="aspect-square w-[min(100%,40dvh,500px)] rounded-2xl md:w-[min(100%,500px)]" />
+            </div>
 
             <div className="flex min-h-0 flex-1 flex-col md:overflow-y-auto md:overscroll-contain">
               <div className="p-5 md:p-7 md:pr-14">

@@ -164,3 +164,13 @@
   35% { transform: scale(1.14); }
   100% { transform: scale(1); }
 }
+
+/* Barras de rolagem do modal, carrinho e checkout no tom do site (finas e escuras). */
+[role='dialog'], [role='dialog'] * {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-coal-600) transparent;
+}
+[role='dialog'] ::-webkit-scrollbar { width: 8px; height: 8px; }
+[role='dialog'] ::-webkit-scrollbar-track { background: transparent; }
+[role='dialog'] ::-webkit-scrollbar-thumb { background: var(--color-coal-600); border-radius: 9999px; border: 2px solid var(--color-coal-900); }
+[role='dialog'] ::-webkit-scrollbar-thumb:hover { background: var(--color-cream-500); }

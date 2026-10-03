@@ -39,11 +39,11 @@ export function ProductPhoto({ image, name, size = 'sm', className, eager, sizes
     <div className={cx('overflow-hidden bg-coal-800', className)}>
       <img
         src={size === 'lg' ? image.src : (image.srcSmall ?? image.src)}
-        srcSet={image.srcSmall ? `${image.srcSmall} 320w, ${image.src} 640w` : undefined}
+        srcSet={image.srcSmall ? `${image.srcSmall} 320w, ${image.src} 500w` : undefined}
         sizes={sizes ?? (size === 'lg' ? '(min-width: 768px) 520px, 100vw' : '160px')}
         alt={image.alt}
-        width={640}
-        height={640}
+        width={500}
+        height={500}
         loading={eager ? 'eager' : 'lazy'}
         decoding="async"
         onLoad={() => setLoaded(true)}
