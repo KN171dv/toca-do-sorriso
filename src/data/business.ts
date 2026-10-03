@@ -37,5 +37,5 @@ export function formatPhone(raw: string): string {
 
 export function fullAddress(): string {
   const a = businessInfo.address
-  return `${a.street} — ${a.neighborhood}, ${a.city} – ${a.state}`
+  return `${a.street}, ${a.neighborhood}, ${a.city}, ${a.state}`
 }

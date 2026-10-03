@@ -2,62 +2,62 @@ import { businessInfo, fullAddress } from '@/data/business'
 import { deliveryConfig, deliveryZones } from '@/data/delivery'
 import { paymentMethods } from '@/data/payments'
 import { formatMoney } from '@/lib/format'
-import { CardIcon, ClockIcon, MotoIcon, PinIcon, StoreIcon } from '@/components/ui/Icons'
 
 export function Delivery() {
   const fees = deliveryZones.map((z) => z.fee)
-  const cards = [
-    { icon: <MotoIcon />, label: 'Taxa de entrega', value: `${formatMoney(Math.min(...fees))} a ${formatMoney(Math.max(...fees))}`, hint: 'Conforme o bairro' },
-    { icon: <ClockIcon />, label: 'Tempo estimado', value: `~${deliveryConfig.estimatedMinutes.delivery} min`, hint: 'Entrega ou retirada' },
-    { icon: <StoreIcon />, label: 'Pedido mínimo', value: formatMoney(deliveryConfig.minimumOrder), hint: 'Em produtos' },
+  const facts = [
+    { label: 'Taxa de entrega', value: `${formatMoney(Math.min(...fees))} a ${formatMoney(Math.max(...fees))}`, hint: 'Conforme o bairro' },
+    { label: 'Tempo estimado', value: `~${deliveryConfig.estimatedMinutes.delivery} min`, hint: 'Entrega ou retirada' },
+    { label: 'Pedido mínimo', value: formatMoney(deliveryConfig.minimumOrder), hint: 'Em produtos' },
   ]
   return (
-    <section id="delivery" aria-labelledby="delivery-titulo" className="relative isolate overflow-hidden bg-coal-950 py-20 lg:py-28">
-      <div data-reveal="ambient" aria-hidden="true" className="pointer-events-none absolute inset-0 -z-20 bg-[radial-gradient(60%_45%_at_70%_30%,rgb(224_102_26/0.14),transparent_70%)]" />
+    <section id="delivery" aria-labelledby="delivery-titulo" className="relative bg-coal-950 py-24 lg:py-36">
       <div className="container-x">
-        <div className="mb-10 max-w-2xl">
-          <p data-reveal className="eyebrow mb-3">Delivery e retirada</p>
-          <h2 data-reveal="title" id="delivery-titulo" className="display text-[clamp(2.6rem,11vw,5.5rem)] text-cream-50">Da brasa <span className="text-ember-500">até você.</span></h2>
-        </div>
+        <h2 data-reveal="title" id="delivery-titulo" className="display text-[clamp(2.2rem,8vw,3.6rem)] text-cream-50">Entrega e retirada</h2>
 
-        <ul className="grid gap-3 sm:grid-cols-3 lg:gap-5">
-          {cards.map((c) => (
-            <li data-reveal="stat" key={c.label} className="rounded-3xl border border-cream-100/10 bg-coal-900 p-5 lg:p-7">
-              <span className="grid size-11 place-items-center rounded-full bg-ember-500/15 text-ember-400">{c.icon}</span>
-              <p className="mt-5 text-sm font-semibold uppercase tracking-[0.16em] text-cream-500">{c.label}</p>
-              <p className="display mt-1 text-[2.1rem] text-cream-50 lg:text-[2.6rem]">{c.value}</p>
-              <p className="mt-1 text-sm text-cream-500">{c.hint}</p>
-            </li>
+        {/* Uma linha de informação, não três cartões */}
+        <dl className="mt-8 grid divide-y divide-cream-100/12 border-y border-cream-100/12 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+          {facts.map((f) => (
+            <div data-reveal="stat" key={f.label} className="flex items-baseline justify-between gap-4 py-4 sm:block sm:px-6 sm:py-6 sm:first:pl-0">
+              <dt className="text-sm text-cream-500">{f.label}</dt>
+              <dd className="text-right sm:mt-1 sm:text-left">
+                <span className="display block text-[1.7rem] text-cream-50 sm:text-[2.2rem]">{f.value}</span>
+                <span className="text-xs text-cream-500 sm:text-sm">{f.hint}</span>
+              </dd>
+            </div>
           ))}
-        </ul>
+        </dl>
 
-        <div className="mt-5 grid gap-5 lg:grid-cols-[1.4fr_1fr]">
-          <div data-reveal className="rounded-3xl border border-cream-100/10 bg-coal-900 p-5 lg:p-7">
-            <h3 className="display text-2xl text-cream-50">Bairros atendidos</h3>
-            <p className="mt-1 text-sm text-cream-500">A taxa é calculada no carrinho ao escolher o bairro.</p>
-            <ul className="mt-5 flex flex-wrap gap-2">
+        <div className="mt-14 grid gap-12 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)] lg:gap-16">
+          <div>
+            <h3 data-reveal className="text-lg font-bold text-cream-50">Bairros atendidos</h3>
+            <p data-reveal className="mt-1 text-sm text-cream-500">A taxa é calculada no carrinho ao escolher o bairro.</p>
+            {/* Tabela de preços: nome à esquerda, taxa à direita, colunas alinhadas */}
+            <ul data-reveal className="mt-5 gap-x-10 sm:columns-2">
               {deliveryZones.map((z) => (
-                <li key={z.id} className="inline-flex items-center gap-2 rounded-full bg-coal-800 px-3.5 py-2 text-sm text-cream-100">
-                  {z.name} <span className="font-bold tabular-nums text-ember-400">{formatMoney(z.fee)}</span>
+                <li key={z.id} className="flex break-inside-avoid items-baseline gap-2 py-1.5 text-[0.95rem]">
+                  <span className="text-cream-100">{z.name}</span>
+                  <span aria-hidden="true" className="min-w-4 flex-1 border-b border-dotted border-cream-100/25" />
+                  <span className="font-semibold tabular-nums text-cream-50">{formatMoney(z.fee)}</span>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="grid gap-5">
-            <div data-reveal className="rounded-3xl border border-cream-100/10 bg-coal-900 p-5 lg:p-7">
-              <h3 className="display flex items-center gap-3 text-2xl text-cream-50"><CardIcon className="text-ember-400" /> Pagamento</h3>
-              <ul className="mt-4 space-y-2.5">
+          <div className="space-y-10">
+            <div data-reveal>
+              <h3 className="text-lg font-bold text-cream-50">Pagamento</h3>
+              <ul className="mt-3 space-y-2">
                 {paymentMethods.filter((p) => p.active).map((p) => (
-                  <li key={p.id} className="flex flex-wrap items-baseline justify-between gap-x-3 border-b border-cream-100/8 pb-2.5 last:border-0 last:pb-0">
-                    <span className="font-semibold text-cream-100">{p.name}</span>
-                    {p.hint && <span className="text-sm text-cream-500">{p.hint}</span>}
+                  <li key={p.id} className="text-cream-100">
+                    {p.name}
+                    {p.hint && <span className="block text-sm text-cream-500">{p.hint}</span>}
                   </li>
                 ))}
               </ul>
             </div>
-            <div data-reveal className="rounded-3xl border border-cream-100/10 bg-coal-900 p-5 lg:p-7">
-              <h3 className="display flex items-center gap-3 text-2xl text-cream-50"><PinIcon className="text-ember-400" /> Retirada no local</h3>
+            <div data-reveal>
+              <h3 className="text-lg font-bold text-cream-50">Retirada no local</h3>
               <p className="mt-3 text-cream-100">{fullAddress()}</p>
               <p className="mt-1 text-sm text-cream-500">{businessInfo.address.reference}</p>
             </div>
