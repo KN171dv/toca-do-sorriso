@@ -17,7 +17,6 @@ export const MotoIcon = (p: SVGProps<SVGSVGElement>) => (<S {...p}><circle cx="6
 export const StoreIcon = (p: SVGProps<SVGSVGElement>) => (<S {...p}><path d="M4 10v10h16V10M3 10l2-6h14l2 6a3 3 0 0 1-6 0 3 3 0 0 1-6 0 3 3 0 0 1-6 0Z" /></S>)
 export const CardIcon = (p: SVGProps<SVGSVGElement>) => (<S {...p}><rect x="3" y="5" width="18" height="14" rx="2.5" /><path d="M3 10h18" /></S>)
 export const CheckIcon = (p: SVGProps<SVGSVGElement>) => (<S {...p}><path d="m5 12 5 5 9-10" /></S>)
-export const ReplayIcon = (p: SVGProps<SVGSVGElement>) => (<S {...p}><path d="M4 12a8 8 0 1 0 2.4-5.7" /><path d="M4 4v4.5h4.5" /></S>)
 export const MenuIcon = (p: SVGProps<SVGSVGElement>) => (<S {...p}><path d="M4 8h16M4 16h16" /></S>)
 export const FlameIcon = (p: SVGProps<SVGSVGElement>) => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...p}>

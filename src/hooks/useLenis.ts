@@ -6,9 +6,14 @@ let instance: Lenis | null = null
 export const getLenis = (): Lenis | null => instance
 
 /** Rola até um seletor/elemento respeitando o Lenis (ou nativo, se desligado). */
-export function scrollToTarget(target: string | HTMLElement, offset = -72): void {
+/**
+ * Seções que já reservam o espaço do cabeçalho no próprio padding (ex.: #destaque,
+ * que ocupa 100svh) declaram data-scroll-offset="0"; as demais param 72px abaixo do topo.
+ */
+export function scrollToTarget(target: string | HTMLElement, offset?: number): void {
   const el = typeof target === 'string' ? document.querySelector<HTMLElement>(target) : target
   if (!el) return
+  offset ??= el.dataset.scrollOffset !== undefined ? Number(el.dataset.scrollOffset) : -72
   if (instance) instance.scrollTo(el, { offset, duration: 1.1 })
   else {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
