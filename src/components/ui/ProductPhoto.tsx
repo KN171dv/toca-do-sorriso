@@ -25,7 +25,7 @@ export function ProductPhoto({ image, name, size = 'sm', className, eager, sizes
       <div
         role="img"
         aria-label={`${name} — foto em breve`}
-        className={cx('grid place-items-center bg-coal-800 text-cream-500/45', className)}
+        className={cx('grid place-items-center bg-[radial-gradient(circle_at_50%_60%,#3a2414,#17100b_70%)] text-ember-500/70', className)}
       >
         <div className="flex flex-col items-center gap-1.5 p-2 text-center">
           <FlameIcon width={size === 'lg' ? 40 : 24} height={size === 'lg' ? 40 : 24} />

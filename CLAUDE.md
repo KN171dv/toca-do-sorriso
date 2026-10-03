@@ -59,8 +59,7 @@ Onde cada lib do projeto entra (já instaladas, exceto R3F):
 8. HTML é pré-renderizado: nada de `window`/`localStorage` durante o render; estado do cliente entra em `useEffect`.
 9. **Conteúdo nunca invisível esperando animação.** Revelações via `data-reveal` (ver `docs/ARCHITECTURE.md`), com as proteções do `useReveal`. Nada de `visibility: hidden` em itens focáveis.
 10. **Imagens não passam do tamanho do arquivo** (fotos de produto: 500px) nem são cortadas onde o produto precisa aparecer inteiro (hero, modal).
-11. **Logo**: o arquivo atual tem "TOCA DD" e é ilegível pequeno. Cabeçalho e menu mostram só o nome em texto; o selo fica só no rodapé até haver logo novo.
-12. **Direção de arte**: etiqueta laranja + título gigante com final laranja só no hero e no destaque; brilho só nesses dois. Nada de fagulhas, numeração decorativa, ícone em círculo, cards de "features" ou sombra laranja em botão. Escala de cantos e demais decisões em `docs/ARCHITECTURE.md`.
+11. **Logo**: o arquivo atual tem "TOCA DD"; o nome correto fica em texto ao lado do selo até haver logo novo.
 
 ## Mapa rápido
 

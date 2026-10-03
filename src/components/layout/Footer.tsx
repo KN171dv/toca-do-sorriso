@@ -7,11 +7,11 @@ export function Footer() {
   const hours = summarizeHours()
   return (
     <footer id="contato" className="border-t border-cream-100/10 bg-coal-950 pb-28 pt-14 md:pb-14">
-      <div className="container-x grid gap-8 md:grid-cols-[auto_1fr_1fr_1fr] md:gap-12">
-        <img src={businessInfo.logo} alt="Logo Toca do Sorriso na Brasa" width={112} height={112} loading="lazy" className="size-20 rounded-xl md:size-28" />
+      <div className="container-x grid gap-10 md:grid-cols-[auto_1fr_1fr_1fr] md:gap-12">
+        <img src={businessInfo.logo} alt="Logo Toca do Sorriso na Brasa" width={112} height={112} loading="lazy" className="size-28 rounded-2xl" />
 
         <div>
-          <h2 className="mb-3 text-sm font-bold text-cream-50">Onde estamos</h2>
+          <h2 className="eyebrow mb-3">Onde estamos</h2>
           <address className="flex gap-3 not-italic text-cream-100">
             <PinIcon className="mt-0.5 shrink-0 text-ember-500" />
             <span>
@@ -22,7 +22,7 @@ export function Footer() {
         </div>
 
         <div>
-          <h2 className="mb-3 text-sm font-bold text-cream-50">Horário</h2>
+          <h2 className="eyebrow mb-3">Horário</h2>
           <ul className="space-y-1.5">
             {hours.map((h) => (
               <li key={h.days} className="flex gap-3 text-cream-100">
@@ -34,7 +34,7 @@ export function Footer() {
         </div>
 
         <div>
-          <h2 className="mb-3 text-sm font-bold text-cream-50">Fale com a gente</h2>
+          <h2 className="eyebrow mb-3">Fale com a gente</h2>
           <ul className="space-y-1">
             <li>
               <a href={whatsappContactUrl()} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center gap-3 text-cream-100 transition-colors hover:text-ember-400">
