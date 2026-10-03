@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useCart } from '@/store/cart'
 import { useUi } from '@/store/ui'
-import { cartCount } from '@/lib/pricing'
+import { cartCount, cartSubtotal } from '@/lib/pricing'
 import { cx } from '@/lib/format'
 import { ScrollTrigger } from '@/lib/motion'
 import { scrollToTarget } from '@/hooks/useLenis'
@@ -10,6 +10,7 @@ import { useStoreStatus } from '@/hooks/useStoreStatus'
 import { useCartFeedback } from '@/hooks/useCartFeedback'
 import { ArrowIcon, BagIcon, CloseIcon, MenuIcon } from '@/components/ui/Icons'
 import { StatusPill } from '@/components/ui/StatusPill'
+import { Money } from '@/components/ui/Money'
 
 /** Na ordem em que as seções aparecem na página. */
 const NAV = [
@@ -64,6 +65,7 @@ export function Header() {
   const [solid, setSolid] = useState(false)
   const [menu, setMenu] = useState(false)
   const count = useCart((s) => cartCount(s.lines))
+  const subtotal = useCart((s) => cartSubtotal(s.lines))
   const setPanel = useUi((s) => s.setPanel)
   const status = useStoreStatus()
   const active = useActiveSection()
@@ -109,7 +111,7 @@ export function Header() {
           </span>
         </a>
 
-        <nav aria-label="Principal" className="hidden items-center gap-6 lg:flex xl:gap-8">
+        <nav aria-label="Principal" className="hidden items-center gap-4 lg:flex xl:gap-8">
           {NAV.map((n) => (
             <a
               key={n.id}
@@ -135,19 +137,22 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-1.5 min-[390px]:gap-2">
-          <span className="hidden min-[480px]:block"><StatusPill status={status} /></span>
-          <span className="hidden min-[375px]:block min-[480px]:hidden"><StatusPill status={status} compact /></span>
+          <span className="hidden min-[480px]:block lg:hidden xl:block"><StatusPill status={status} /></span>
+          <span className="hidden min-[375px]:block min-[480px]:hidden lg:block xl:hidden"><StatusPill status={status} compact /></span>
           <button
             type="button"
             onClick={() => setPanel('cart')}
             aria-label={count ? `Abrir carrinho, ${count} ${count === 1 ? 'item' : 'itens'}` : 'Abrir carrinho'}
             data-cart-target
             className={cx(
-              'relative grid size-11 shrink-0 place-items-center rounded-full border border-cream-100/15 bg-coal-900/60 text-cream-50 transition-[border-color,color,translate,scale] duration-200 hover:border-ember-500 hover:text-ember-400 active:scale-95 sm:size-12',
+              'relative flex h-11 min-w-11 shrink-0 items-center justify-center gap-2 rounded-full border border-cream-100/15 bg-coal-900/60 text-cream-50 transition-[border-color,color,translate,scale] duration-200 hover:border-ember-500 hover:text-ember-400 active:scale-95 sm:h-12 sm:min-w-12',
+              // ≥768px a barra flutuante não existe: o subtotal aparece aqui, sem cobrir nenhum botão da página
+              count > 0 && 'md:pl-4 md:pr-5',
               pulse && 'animate-[cart-bump_.5s_var(--ease-out-expo)]',
             )}
           >
             <BagIcon />
+            {count > 0 && <Money value={subtotal} className="hidden text-sm font-bold md:inline" />}
             {count > 0 && (
               <span key={count} className="absolute -right-0.5 -top-0.5 grid min-w-5 animate-[pop_.35s_var(--ease-out-expo)] place-items-center rounded-full bg-ember-500 px-1 text-[0.7rem] font-bold leading-5 text-coal-950">
                 {count}
