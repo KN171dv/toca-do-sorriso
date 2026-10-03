@@ -99,12 +99,12 @@ export function Header() {
       <a href="#cardapio" onClick={(e) => go(e, '#cardapio')} className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-50 focus:rounded-full focus:bg-ember-500 focus:px-4 focus:py-2 focus:font-bold focus:text-coal-950">
         Pular para o cardápio
       </a>
-      <div className="container-x flex h-16 items-center justify-between gap-3">
+      <div className="container-x flex h-16 items-center justify-between gap-2 min-[390px]:gap-3">
         {/* Selo + nome em texto: o arquivo do logo tem "TOCA DD SORRISO", então o nome correto vem escrito ao lado */}
         <a href="#topo" onClick={(e) => go(e, '#topo')} aria-label="Toca do Sorriso na Brasa — início" className="flex min-h-11 shrink-0 items-center gap-1.5 min-[414px]:gap-2 sm:gap-2.5">
-          <img src="/images/brand/logo-80.webp" alt="" width={40} height={40} decoding="async" className="size-8 shrink-0 rounded-full ring-1 ring-cream-100/15 min-[414px]:size-9 sm:size-10" />
+          <img src="/images/brand/logo-96.webp" alt="" width={44} height={44} decoding="async" className="size-10 shrink-0 rounded-full ring-1 ring-cream-100/15 sm:size-11" />
           <span className="flex flex-col justify-center leading-none">
-            <span className="display text-[1.1rem] text-cream-50 min-[414px]:text-[1.2rem] sm:text-[1.35rem]">Toca do <span className="text-ember-500">Sorriso</span></span>
+            <span className="display text-[1rem] text-cream-50 min-[414px]:text-[1.15rem] sm:text-[1.35rem]">Toca do <span className="text-ember-500">Sorriso</span></span>
             <span className="mt-0.5 text-[0.58rem] font-bold uppercase tracking-[0.42em] text-cream-300">na brasa</span>
           </span>
         </a>
@@ -134,7 +134,7 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 min-[390px]:gap-2">
           <span className="hidden min-[480px]:block"><StatusPill status={status} /></span>
           <span className="hidden min-[375px]:block min-[480px]:hidden"><StatusPill status={status} compact /></span>
           <button
@@ -183,7 +183,7 @@ export function Header() {
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(90%_50%_at_50%_110%,rgb(224_102_26/0.28),transparent_70%)]" />
         <div className="container-x flex h-16 shrink-0 items-center justify-between">
           <span className="flex items-center gap-2.5">
-            <img src="/images/brand/logo-80.webp" alt="" width={40} height={40} decoding="async" className="size-10 rounded-full ring-1 ring-cream-100/15" />
+            <img src="/images/brand/logo-96.webp" alt="" width={44} height={44} decoding="async" className="size-11 rounded-full ring-1 ring-cream-100/15" />
             <span className="display text-[1.35rem] text-cream-50">Toca do <span className="text-ember-500">Sorriso</span></span>
           </span>
           <button type="button" onClick={closeMenu} aria-label="Fechar menu" data-autofocus className="grid size-11 place-items-center rounded-full border border-cream-100/15 text-cream-50 transition-colors hover:border-ember-500 sm:size-12">
