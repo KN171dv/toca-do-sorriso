@@ -153,10 +153,10 @@
 /* Entrada do hero em CSS puro: começa no primeiro paint, sem depender de JS. */
 @keyframes line-up { from { transform: translate3d(0, 110%, 0); } to { transform: none; } }
 @keyframes fade-up { from { opacity: 0; transform: translate3d(0, 18px, 0); } to { opacity: 1; transform: none; } }
-@keyframes photo-in { from { transform: scale(1.14); } to { transform: none; } }
+@keyframes photo-in { from { transform: translate3d(0, 18px, 0); } to { transform: none; } }
 .hero-line { animation: line-up 0.9s var(--ease-out-expo) both; animation-delay: calc(0.12s + var(--i, 0) * 0.09s); }
 .hero-fade { animation: fade-up 0.7s var(--ease-out-expo) both; animation-delay: calc(0.45s + var(--i, 0) * 0.08s); }
-.hero-photo { animation: photo-in 1.4s var(--ease-out-expo) both; }
+.hero-photo { animation: photo-in 1s var(--ease-out-expo) both; }
 
 /* Carrinho do cabeçalho reage a cada item adicionado. */
 @keyframes cart-bump {
