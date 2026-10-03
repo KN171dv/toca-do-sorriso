@@ -23,6 +23,16 @@ export const BURGER_FRAME_RATIO = 0.92
 /** Altura extra do estado totalmente aberto, em % da altura do quadro. */
 export const BURGER_MAX_SPREAD = 31.41
 
+/** Hambúrguer montado inteiro (recorte sem fundo) — variante '3d' do hero. */
+export const HERO_3D = {
+  src: '/images/burger/hamburguer-3d-montado.webp',
+  srcSmall: '/images/burger/hamburguer-3d-montado-sm.webp',
+  width: 795,
+  height: 866,
+  widthSmall: 525,
+  alt: 'Duplo Bacon montado: pão brioche, maionese temperada, bacon, cheddar e duas carnes de 100g (imagem ilustrativa)',
+} as const
+
 export const burgerPieces: BurgerPiece[] = [
   { id: 'pao-topo', src: '/images/burger-layers/3d-pao-topo.webp', srcSmall: '/images/burger-layers/3d-pao-topo-sm.webp', width: 684, height: 297, widthSmall: 424, x: 9.56, y: 0, w: 86.04, h: 34.3, spread: -15.7 },
   { id: 'maionese', src: '/images/burger-layers/3d-maionese.webp', srcSmall: '/images/burger-layers/3d-maionese-sm.webp', width: 480, height: 160, widthSmall: 298, x: 23.4, y: 22.17, w: 60.38, h: 18.48, spread: -7.97 },

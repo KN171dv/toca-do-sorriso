@@ -2,19 +2,21 @@ import { useEffect, useRef } from 'react'
 import { deliveryConfig } from '@/data/delivery'
 import { featured } from '@/data/featured'
 import { getProduct } from '@/lib/catalog'
-import { formatMoney } from '@/lib/format'
 import { gsap } from '@/lib/motion'
 import { scrollToTarget } from '@/hooks/useLenis'
 import { useStoreStatus } from '@/hooks/useStoreStatus'
 import { useUi } from '@/store/ui'
 import { Button } from '@/components/ui/Button'
 import { Embers } from '@/components/ui/Embers'
+import { Money } from '@/components/ui/Money'
+import { HERO_3D } from '@/data/burger3d'
 import { ArrowIcon } from '@/components/ui/Icons'
 import { StatusPill } from '@/components/ui/StatusPill'
 
 export function Hero() {
   const root = useRef<HTMLElement>(null)
-  const product = getProduct(featured.heroProductId)!
+  const is3d = featured.heroVariant === '3d'
+  const product = getProduct(is3d ? featured.explodedProductId : featured.heroProductId)!
   const openProduct = useUi((s) => s.openProduct)
   const status = useStoreStatus()
 
@@ -42,30 +44,45 @@ export function Hero() {
       <Embers />
 
       <div className="container-x relative flex flex-1 flex-col lg:grid lg:grid-cols-[1.05fr_1fr] lg:items-center lg:gap-6">
-        {/* Foto — no mobile vem primeiro: comida é a protagonista */}
-        {/* Nunca maior que o arquivo (500px) e sem máscara: o hambúrguer vai até a borda da foto */}
-        <div data-hero-photo-wrap className="relative order-1 mx-auto mt-1 w-[min(88vw,38svh,500px)] shrink-0 max-lg:[@media(max-height:620px)]:w-[min(88vw,32svh)] will-change-transform lg:order-2 lg:mt-0 lg:w-[min(40vw,64svh,500px)]">
-          <div aria-hidden="true" className="absolute -inset-[30%] rounded-full bg-[radial-gradient(closest-side,rgb(224_102_26/0.42),rgb(184_72_15/0.16)_55%,transparent)]" />
-          <div aria-hidden="true" className="absolute inset-[10%] rounded-full bg-ember-600/35 blur-[60px]" />
-          <img
-            src={product.image!.src}
-            alt={product.image!.alt}
-            width={500} height={500}
-            fetchPriority="high"
-            decoding="async"
-            className="hero-photo relative aspect-square w-full rounded-[2rem] object-cover shadow-[0_30px_80px_-30px_rgb(0_0_0/0.9)] ring-1 ring-cream-100/10 lg:rounded-[2.5rem]"
-          />
+        {/* Imagem — no mobile vem primeiro: comida é a protagonista. Nunca maior que o arquivo
+            (foto: 500px), sempre nítida (sem máscara nem degradê sobre o lanche). A brasa do fundo
+            passa por trás e a sombra é quente, para ela parecer iluminada, não um card colado. */}
+        <div data-hero-photo-wrap className="relative order-1 mx-auto mb-9 mt-1 w-[min(88vw,38svh,500px)] shrink-0 max-lg:[@media(max-height:620px)]:mb-0 max-lg:[@media(max-height:620px)]:w-[min(88vw,32svh)] will-change-transform lg:order-2 lg:mb-0 lg:mt-0 lg:w-[min(40vw,64svh,500px)]">
+          <div aria-hidden="true" className="absolute -inset-[34%] rounded-full bg-[radial-gradient(closest-side,rgb(245_138_42/0.42),rgb(184_72_15/0.18)_55%,transparent)]" />
+          <div aria-hidden="true" className="absolute inset-x-[8%] bottom-[-6%] top-[30%] rounded-full bg-ember-600/45 blur-[70px]" />
+          {is3d ? (
+            <img
+              src={HERO_3D.src}
+              srcSet={`${HERO_3D.srcSmall} ${HERO_3D.widthSmall}w, ${HERO_3D.src} ${HERO_3D.width}w`}
+              sizes="(min-width: 1024px) 500px, min(88vw, 38svh, 500px)"
+              alt={HERO_3D.alt}
+              width={HERO_3D.width} height={HERO_3D.height}
+              fetchPriority="high"
+              decoding="async"
+              className="hero-photo relative w-full drop-shadow-[0_34px_40px_rgb(40_12_2/0.75)]"
+            />
+          ) : (
+            <img
+              src={product.image!.src}
+              alt={product.image!.alt}
+              width={500} height={500}
+              fetchPriority="high"
+              decoding="async"
+              className="hero-photo relative aspect-square w-full rounded-[1.75rem] object-cover shadow-[0_40px_90px_-30px_rgb(70_22_4/0.95),0_0_0_1px_rgb(246_231_206/0.05),0_0_60px_-10px_rgb(224_102_26/0.35)] lg:rounded-[2.25rem]"
+            />
+          )}
+          {/* Pílula clicável: abre o produto. No celular fica quase toda abaixo da foto (não cobre o lanche). */}
           <button
             type="button"
-            
             onClick={() => openProduct(product.id)}
-            style={{ ['--i' as string]: 0 }} className="hero-fade absolute -bottom-4 right-3 flex whitespace-nowrap max-lg:[@media(max-height:620px)]:hidden items-center gap-3 rounded-full border border-cream-100/15 bg-coal-950/80 py-2 pl-4 pr-2 text-left backdrop-blur-md transition-colors hover:border-ember-500 lg:right-[4%]"
+            style={{ ['--i' as string]: 0 }}
+            className="hero-fade group absolute -bottom-10 right-1 flex items-center gap-3 whitespace-nowrap rounded-full border border-cream-100/12 bg-coal-950/75 py-1.5 pl-4 pr-1.5 text-left shadow-[inset_0_1px_0_rgb(246_231_206/0.08),0_14px_30px_-12px_rgb(0_0_0/0.8)] backdrop-blur-md transition-[border-color,translate] duration-300 hover:-translate-y-0.5 hover:border-ember-500/60 max-lg:[@media(max-height:620px)]:hidden lg:-bottom-6 lg:right-[-3%]"
           >
             <span className="leading-tight">
-              <span className="block text-[0.62rem] font-bold uppercase tracking-[0.2em] text-cream-500">Na foto</span>
-              <span className="block text-sm font-bold text-cream-50">{product.name} · {formatMoney(product.price)}</span>
+              <span className="block text-[0.6rem] font-bold uppercase tracking-[0.2em] text-cream-500">{is3d ? 'Imagem ilustrativa' : 'Na foto'}</span>
+              <span className="block text-sm font-bold text-cream-50">{product.name} · <Money value={product.price} /></span>
             </span>
-            <span className="grid size-9 place-items-center rounded-full bg-ember-500 text-coal-950"><ArrowIcon width={16} height={16} /></span>
+            <span className="grid size-10 place-items-center rounded-full bg-ember-500 text-coal-950 transition-transform duration-300 group-hover:translate-x-0.5"><ArrowIcon width={16} height={16} /></span>
           </button>
         </div>
 
@@ -87,7 +104,7 @@ export function Hero() {
 
           <ul  style={{ ['--i' as string]: 4 }} className="hero-fade mt-7 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-cream-300">
             <li><StatusPill status={status} /></li>
-            <li>Pedido mínimo {formatMoney(deliveryConfig.minimumOrder)}</li>
+            <li>Pedido mínimo <Money value={deliveryConfig.minimumOrder} /></li>
             <li className="hidden min-[420px]:block">Entrega · Retirada</li>
           </ul>
         </div>

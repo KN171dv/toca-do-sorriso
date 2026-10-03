@@ -2,6 +2,13 @@
  * Curadoria de destaques — tudo aponta para produtos reais do cardápio.
  */
 export const featured = {
+  /**
+   * Imagem do hero:
+   *  'foto' → foto real do produto heroProductId (padrão)
+   *  '3d'   → recorte montado do hambúrguer 3D (Duplo Bacon), nítido e sem fundo;
+   *           legenda "Imagem ilustrativa", o botão abre explodedProductId.
+   */
+  heroVariant: 'foto' as 'foto' | '3d',
   /** Foto usada no hero (fundo escuro, mais dramática). */
   heroProductId: 'big-sorriso',
   /** Produto da apresentação "exploded view". */

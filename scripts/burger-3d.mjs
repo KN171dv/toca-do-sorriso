@@ -210,7 +210,7 @@ for (let p = 0; p < PIECES.length; p++) {
     const out = `${LAYERS_DIR}/3d-${PIECES[p]}${suffix}.webp`
     await sharp(png).resize({ width: Math.round(box.w * scale) }).webp({ quality: 82, alphaQuality: 90, effort: 6 }).toFile(out)
   }
-  boxes.push({ id: PIECES[p], ...box, dy: ASSEMBLE_DY[p] })
+  boxes.push({ id: PIECES[p], ...box, dy: ASSEMBLE_DY[p], png })
   console.log(`✓ ${PIECES[p]} ${box.w}×${box.h}`)
 }
 
@@ -222,6 +222,18 @@ const fx0 = Math.min(...boxes.map((b) => b.x)), fx1 = Math.max(...boxes.map((b) 
 const ay0 = Math.min(...boxes.map((b) => b.y + b.dy)), ay1 = Math.max(...boxes.map((b) => b.y + b.h + b.dy))
 const ey0 = Math.min(...boxes.map((b) => b.y)), ey1 = Math.max(...boxes.map((b) => b.y + b.h))
 const FW = fx1 - fx0, FH = ay1 - ay0
+
+// Hambúrguer montado inteiro (variante '3d' do hero): peças compostas na posição montada,
+// de baixo para cima (a de cima fica na frente), com fundo transparente.
+const assembled = await sharp({ create: { width: FW, height: FH, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } })
+  .composite([...boxes].reverse().map((b) => ({ input: b.png, left: b.x - fx0, top: b.y + b.dy - ay0 })))
+  .png().toBuffer()
+const HERO_SMALL = 0.66
+for (const [suffix, scale] of [['', 1], ['-sm', HERO_SMALL]]) {
+  const out = `${DEST_DIR}/hamburguer-3d-montado${suffix}.webp`
+  await sharp(assembled).resize({ width: Math.round(FW * scale) }).webp({ quality: 84, alphaQuality: 90, effort: 6 }).toFile(out)
+  console.log('✓', out)
+}
 const shift = (ay0 + ay1) / 2 - (ey0 + ey1) / 2
 const r = (n) => Math.round(n * 100) / 100
 const rows = boxes.map((b) => {
@@ -252,6 +264,16 @@ export interface BurgerPiece {
 export const BURGER_FRAME_RATIO = ${r(FW / FH)}
 /** Altura extra do estado totalmente aberto, em % da altura do quadro. */
 export const BURGER_MAX_SPREAD = ${r(((ey1 - ey0 - FH) / FH) * 100)}
+
+/** Hambúrguer montado inteiro (recorte sem fundo) — variante '3d' do hero. */
+export const HERO_3D = {
+  src: '/images/burger/hamburguer-3d-montado.webp',
+  srcSmall: '/images/burger/hamburguer-3d-montado-sm.webp',
+  width: ${FW},
+  height: ${FH},
+  widthSmall: ${Math.round(FW * HERO_SMALL)},
+  alt: 'Duplo Bacon montado: pão brioche, maionese temperada, bacon, cheddar e duas carnes de 100g (imagem ilustrativa)',
+} as const
 
 export const burgerPieces: BurgerPiece[] = [
 ${rows.join('\n')}
