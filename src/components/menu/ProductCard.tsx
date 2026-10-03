@@ -43,7 +43,7 @@ export function ProductCard({ product }: { product: Product }) {
       </div>
       <div className="flex flex-1 flex-col p-3.5 sm:p-4">
         <h3 className="display text-[1.3rem] leading-none text-cream-50 sm:text-2xl">
-          <button type="button" onClick={() => openProduct(product.id)} className="text-left uppercase after:absolute after:inset-0 after:rounded-2xl focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-ember-400">
+          <button type="button" onClick={() => openProduct(product.id)} className="text-left uppercase after:absolute after:inset-0 after:rounded-2xl focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:-outline-offset-2 focus-visible:after:outline-ember-400">
             {product.name}
           </button>
         </h3>
@@ -66,7 +66,7 @@ export function ProductRow({ product }: { product: Product }) {
       <div className="min-w-0 flex-1">
         <Badges badges={product.badges} className="mb-1" />
         <h3 className="text-[1.02rem] font-semibold leading-snug text-cream-50">
-          <button type="button" onClick={() => openProduct(product.id)} className="text-left after:absolute after:inset-0 after:rounded-xl focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-ember-400">
+          <button type="button" onClick={() => openProduct(product.id)} className="text-left after:absolute after:inset-0 after:rounded-xl focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:-outline-offset-2 focus-visible:after:outline-ember-400">
             {product.name}
           </button>
         </h3>

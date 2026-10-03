@@ -29,7 +29,7 @@ export function BestSellers() {
               <Badges badges={p.badges} className="absolute left-5 top-5" />
               <div className="p-5 lg:p-6">
                 <h3 className="display text-[2.3rem] text-cream-50 lg:text-[2.7rem]">
-                  <button type="button" onClick={() => openProduct(p.id)} className="text-left uppercase after:absolute after:inset-0 after:rounded-[1.75rem] focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-ember-400">
+                  <button type="button" onClick={() => openProduct(p.id)} className="text-left uppercase after:absolute after:inset-0 after:rounded-[1.75rem] focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:-outline-offset-2 focus-visible:after:outline-ember-400">
                     {p.name}
                   </button>
                 </h3>
