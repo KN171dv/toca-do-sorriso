@@ -9,6 +9,7 @@
     "typecheck": "tsc -b",
     "images:fetch": "node scripts/fetch-images.mjs",
     "burger:build": "node scripts/burger-3d.mjs",
+    "og:build": "node scripts/og-image.mjs",
     "lint": "oxlint",
     "preview": "vite preview"
   },
