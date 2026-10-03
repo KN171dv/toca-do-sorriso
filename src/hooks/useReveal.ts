@@ -121,26 +121,6 @@ export function useReveal(): void {
           timers.add(t)
         }
 
-        const items = gsap.utils.toArray<HTMLElement>('[data-reveal]')
-        // O que já está acima da tela (ex.: recarregou no meio da página) não esconde.
-        items.filter((el) => el.getBoundingClientRect().bottom > 0).forEach(hide)
-
-        const batches = ScrollTrigger.batch(items.filter((el) => pending.has(el)), {
-          start: 'top 92%',
-          once: true,
-          interval: 0.08,
-          onEnter: (batch) => {
-            const els = batch as HTMLElement[]
-            const fast = Math.abs(speed.getVelocity()) > FAST_SCROLL
-            let i = 0
-            for (const el of els) {
-              // passou da tela (âncora / rolagem rápida) → pronto, sem fila
-              if (fast || el.getBoundingClientRect().bottom < 0) finish(el)
-              else animate(el, i++ * stagger)
-            }
-          },
-        })
-
         // Aba em segundo plano / quadros pausados: ao voltar, termina o que está na tela ou acima.
         const onVisibility = () => {
           for (const el of [...pending.keys()]) if (el.getBoundingClientRect().top < window.innerHeight) finish(el)
@@ -150,25 +130,60 @@ export function useReveal(): void {
           const el = (e.target as HTMLElement | null)?.closest<HTMLElement>('[data-reveal]')
           if (el) finish(el)
         }
+        let batches: ScrollTrigger[] = []
+        let io: IntersectionObserver | null = null
+
+        // Preparação fora do caminho do primeiro paint/LCP: roda quando o navegador
+        // fica ocioso e só esconde o que está abaixo da tela (ninguém vê ainda).
+        // Lê todas as posições antes de escrever estilos (sem leitura/escrita intercalada).
+        const setup = ctx.add('setup', () => {
+          const all = gsap.utils.toArray<HTMLElement>('[data-reveal]')
+          const below = all.map((el) => el.getBoundingClientRect().top > window.innerHeight)
+          const items = all.filter((_, i) => below[i])
+          items.forEach(hide)
+
+          batches = ScrollTrigger.batch(items, {
+            start: 'top 92%',
+            once: true,
+            interval: 0.08,
+            onEnter: (batch) => {
+              const els = batch as HTMLElement[]
+              const fast = Math.abs(speed.getVelocity()) > FAST_SCROLL
+              let i = 0
+              for (const el of els) {
+                // passou da tela (âncora / rolagem rápida) → pronto, sem fila
+                if (fast || el.getBoundingClientRect().bottom < 0) finish(el)
+                else animate(el, i++ * stagger)
+              }
+            },
+          })
+
+          // Rede de segurança independente do GSAP: se o item está na tela há 2,2 s e
+          // continua oculto (gatilho não disparou, quadros pausados), vai ao estado final.
+          io = new IntersectionObserver((entries) => {
+            for (const e of entries) {
+              const el = e.target as HTMLElement
+              if (!e.isIntersecting || !pending.has(el)) continue
+              const t = window.setTimeout(() => { timers.delete(t); finish(el) }, 2200)
+              timers.add(t)
+              io?.unobserve(el)
+            }
+          })
+          pending.forEach((_, el) => io?.observe(el))
+        }) as () => void
+
         document.addEventListener('visibilitychange', onVisibility)
         document.addEventListener('focusin', onFocus)
-        // Rede de segurança independente do GSAP: se o item está na tela há 2,2 s e
-        // continua oculto (gatilho não disparou, quadros pausados), vai ao estado final.
-        const io = new IntersectionObserver((entries) => {
-          for (const e of entries) {
-            const el = e.target as HTMLElement
-            if (!e.isIntersecting || !pending.has(el)) continue
-            const t = window.setTimeout(() => { timers.delete(t); finish(el) }, 2200)
-            timers.add(t)
-            io.unobserve(el)
-          }
-        })
-        pending.forEach((_, el) => io.observe(el))
+        const idle = window.requestIdleCallback
+          ? window.requestIdleCallback(setup, { timeout: 1500 })
+          : window.setTimeout(setup, 300)
 
         return () => {
           document.removeEventListener('visibilitychange', onVisibility)
           document.removeEventListener('focusin', onFocus)
-          io.disconnect()
+          if (window.cancelIdleCallback) window.cancelIdleCallback(idle)
+          else window.clearTimeout(idle)
+          io?.disconnect()
           timers.forEach((t) => window.clearTimeout(t))
           batches.forEach((t) => t.kill())
           speed.kill()
