@@ -43,7 +43,7 @@ export function ProductCard({ product }: { product: Product }) {
       </div>
       <div className="flex flex-1 flex-col p-3.5 sm:p-4">
         <h3 className="display text-[1.3rem] leading-none text-cream-50 sm:text-2xl">
-          <button type="button" onClick={() => openProduct(product.id)} className="text-left uppercase after:absolute after:inset-0 after:rounded-3xl focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-ember-400">
+          <button type="button" onClick={() => openProduct(product.id)} className="text-left uppercase after:absolute after:inset-0 after:rounded-3xl focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:-outline-offset-2 focus-visible:after:outline-ember-400">
             {product.name}
           </button>
         </h3>
@@ -61,12 +61,12 @@ export function ProductCard({ product }: { product: Product }) {
 export function ProductRow({ product }: { product: Product }) {
   const openProduct = useUi((s) => s.openProduct)
   return (
-    <article data-reveal className="group relative flex items-center gap-3.5 rounded-2xl border border-cream-100/8 bg-coal-900 p-2.5 pr-3.5 transition-colors duration-300 hover:border-ember-500/50">
+    <article data-reveal className="group relative flex items-center gap-3.5 rounded-2xl border border-cream-100/8 bg-coal-900 p-2.5 pr-3.5 transition-[border-color,translate] duration-300 ease-out hover:-translate-y-1 hover:border-ember-500/50">
       <ProductPhoto image={product.image} name={product.name} sizes="80px" className="size-20 shrink-0 rounded-xl" />
       <div className="min-w-0 flex-1">
         <Badges badges={product.badges} className="mb-1" />
         <h3 className="text-[1.02rem] font-semibold leading-snug text-cream-50">
-          <button type="button" onClick={() => openProduct(product.id)} className="text-left after:absolute after:inset-0 after:rounded-2xl focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-ember-400">
+          <button type="button" onClick={() => openProduct(product.id)} className="text-left after:absolute after:inset-0 after:rounded-2xl focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:-outline-offset-2 focus-visible:after:outline-ember-400">
             {product.name}
           </button>
         </h3>
